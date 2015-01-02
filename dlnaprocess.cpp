@@ -7,7 +7,7 @@ void DLNAProcess::run()
     QProcess mediaTombProcess;
 
     QStringList parameters;
-    parameters << "-c" << QString( UserManager::getInstance()->getUser( this->user ).getUserDirectory() + "/DLNA/config.xml" );
+    parameters << "-c" << QString( UserManager::getInstance()->getUser( this->user )->getUserDirectory() + "/DLNA/config.xml" );
 
     for( int i = 0; i < files.size(); i++ )
         parameters << "-a " << files[i];

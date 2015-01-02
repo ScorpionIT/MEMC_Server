@@ -8,7 +8,7 @@
 class UserManager
 {
 private:
-    static QMap<QString, User>* users;
+    static QMap<QString, User*>* users;
     static UserManager* _userManager;
 
     UserManager();
@@ -16,7 +16,7 @@ private:
 public:
     static UserManager* getInstance();
     static void initiate(QString* fields );
-    User getUser( QString user );
+    User* getUser( QString user );
     bool isAUser( QString user ) const;
     ~UserManager();
 };

@@ -20,6 +20,8 @@ void Connection::run()
 
             this->client->waitForReadyRead( -1 );
             user = this->client->readLine();
+            user.chop( 2 );
+            qDebug()<< user;
 
         }while( !UserManager::getInstance()->isAUser( user ) );
 
@@ -30,7 +32,7 @@ void Connection::run()
         QString answer = this->client->readLine();
 
         int attempt = 0;
-        while( !(loginCompleted = UserManager::getInstance()->getUser( user ).isPasswdCorrect( answer ) ) && attempt < 3 )
+        while( !(loginCompleted = UserManager::getInstance()->getUser( user )->isPasswdCorrect( answer ) ) && attempt < 3 )
         {
             this->client->write( "try again\n" );
             this->client->waitForReadyRead( -1 );

@@ -1,6 +1,7 @@
 #include "usermanager.h"
 
 UserManager* UserManager::_userManager = nullptr;
+QMap<QString, User*>* UserManager::users = new QMap<QString, User*>();
 
 UserManager::UserManager()
 {
@@ -19,17 +20,17 @@ UserManager* UserManager::getInstance()
 
 void UserManager::initiate( QString* fields )
 {
-    users.insert( fields[0], new User( fields[0], fields[1], "/home", fields[2] ) );
+    users->insert( fields[0], new User( fields[0], 1000, QString("/home"), fields[2] ) );
 }
 
-User UserManager::getUser(QString user)
+User* UserManager::getUser(QString user)
 {
-    return this->users[user];
+    return (*users)[user];
 }
 
 bool UserManager::isAUser( QString user ) const
 {
-    return this->users.contains( user );
+    return (*users).contains( user );
 }
 
 UserManager::~UserManager()
