@@ -8,7 +8,7 @@
 #include <QList>
 #include <QVector>
 
-class ConnectionManager : public QObject
+class ConnectionManager : public QThread
 {
     Q_OBJECT
 
@@ -16,14 +16,11 @@ private:
     QVector<User*> users;
     QTcpServer* serverSocket;
     QList<Connection*> clientConnections;
+    void run();
 
 private slots:
-    void killThreadConnetion(Connection*conn);
+    void killThreadConnetion();
 
-public:
-    ConnectionManager();
-    void start();
-    void stop();
 };
 
 #endif // CONNECTIONMANAGER_H

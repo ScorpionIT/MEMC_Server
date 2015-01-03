@@ -4,15 +4,15 @@
 
 const unsigned long Connection::SESSION_TIMER = 5;
 
-Connection::Connection(QTcpSocket* client) : QThread()
+Connection::Connection(QTcpSocket* client)
 {
+    client->setParent(nullptr);
     this->client = client;
-    this->blockSignals( false );
+    this->client->moveToThread(this);
 }
 
 void Connection::run()
 {
-
     bool loginCompleted = false;
     QString user;
     QString answer;
@@ -73,10 +73,9 @@ void Connection::run()
             UserManager::getInstance()->getUser( user )->setSessionID( -1 );
             this->client->close();
 
-            emit closed( this );
+            emit closed();
             break;
         }
 
     }
-    this->terminate();
 }
