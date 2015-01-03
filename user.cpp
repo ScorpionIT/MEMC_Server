@@ -1,11 +1,21 @@
 #include "user.h"
 
+void User::setSessionID( int sessionID )
+{
+    this->sessionID = sessionID;
+}
+
+void User::setIsOnline( bool online )
+{
+    this->onLine = online;
+}
+
 User::User()
 {
 
 }
 
-User::User(QString id, unsigned long memorySpace, QString userDirectory, QString passwd)
+User::User( QString id, unsigned long memorySpace, QString userDirectory, QString passwd )
 {
     this->id = id;
     this->memorySpace = memorySpace;
@@ -19,7 +29,7 @@ bool User::isOnLine() const
     return this->onLine;
 }
 
-bool User::isPasswdCorrect(QString passwd)
+bool User::isPasswdCorrect( QString passwd )
 {
     return passwd == this->passwd;
 }

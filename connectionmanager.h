@@ -5,13 +5,20 @@
 #include "user.h"
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QList>
+#include <QVector>
 
-class ConnectionManager
+class ConnectionManager : public QObject
 {
+    Q_OBJECT
+
 private:
     QVector<User*> users;
     QTcpServer* serverSocket;
-    QVector<Connection*> clientConnections;
+    QList<Connection*> clientConnections;
+
+private slots:
+    void killThreadConnetion(Connection*conn);
 
 public:
     ConnectionManager();

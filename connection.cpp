@@ -2,9 +2,12 @@
 #include "usermanager.h"
 #include <QDebug>
 
-Connection::Connection(QTcpSocket* client)
+const unsigned long Connection::SESSION_TIMER = 5;
+
+Connection::Connection(QTcpSocket* client) : QThread()
 {
     this->client = client;
+    this->blockSignals( false );
 }
 
 void Connection::run()
@@ -12,6 +15,7 @@ void Connection::run()
 
     bool loginCompleted = false;
     QString user;
+    QString answer;
     do
     {
         do
@@ -29,7 +33,7 @@ void Connection::run()
         this->client->write( "ok pls pw\n");
 
         this->client->waitForReadyRead( -1 );
-        QString answer = this->client->readLine();
+        answer = this->client->readLine();
         answer.chop( 2 );
 
         int attempt = 0;
@@ -50,6 +54,29 @@ void Connection::run()
     message += "DLNA=80002 ";
     message += "STREAMING=80003\n";
     this->client->write( message.toUtf8() );
-    bool error = this->client->waitForBytesWritten();
-    qDebug() << error;
+    this->client->waitForBytesWritten( -1 );
+
+    while( true )
+    {
+        sleep( SESSION_TIMER );
+
+        this->client->write( "are you there?\n" );
+        this->client->waitForBytesWritten( -1 );
+
+        bool hasItAnswered = this->client->waitForReadyRead( 2000 );
+
+        if( hasItAnswered )
+            answer = this->client->readLine();
+        else
+        {
+            UserManager::getInstance()->getUser( user )->setIsOnline( false );
+            UserManager::getInstance()->getUser( user )->setSessionID( -1 );
+            this->client->close();
+
+            emit closed( this );
+            break;
+        }
+
+    }
+    this->terminate();
 }

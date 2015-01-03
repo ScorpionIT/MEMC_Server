@@ -21,7 +21,7 @@ void DLNAService::start()
 
         QStringList files = message.split( " " );
 
-        this->processes->push_back( new DLNAProcess( files,   ) );
+        //this->processes->push_back( new DLNAProcess( files,   ) );
         this->processes->back()->start();
 
     }

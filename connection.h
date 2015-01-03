@@ -11,11 +11,15 @@ Q_OBJECT
 
 private:
     QTcpSocket* client;
+    static const unsigned long SESSION_TIMER;
+
+signals:
+    void closed ( Connection* conn );
 
 public:
     Connection( QTcpSocket* client );
 
-    void run();
+    void run() Q_DECL_OVERRIDE;
 };
 
 #endif // CONNECTION_H

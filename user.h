@@ -11,6 +11,10 @@ private:
     QString userDirectory;
     QString passwd;
     bool onLine;
+    int sessionID = -1;
+
+    void setSessionID( int sessionID );
+    void setIsOnline(bool online );
 
 public:
     User();
@@ -20,6 +24,8 @@ public:
      bool isPasswdCorrect( QString passwd );
      QString getUserDirectory() const;
     ~User();
+
+     friend class Connection;
 };
 
 #endif // USER_H
