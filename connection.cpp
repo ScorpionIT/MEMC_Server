@@ -30,6 +30,7 @@ void Connection::run()
 
         this->client->waitForReadyRead( -1 );
         QString answer = this->client->readLine();
+        answer.chop( 2 );
 
         int attempt = 0;
         while( !(loginCompleted = UserManager::getInstance()->getUser( user )->isPasswdCorrect( answer ) ) && attempt < 3 )
@@ -44,9 +45,10 @@ void Connection::run()
     this->client->write( "ok\n" );
 
 
+
     QString message("FileTransfer=80001 ");
     message += "DLNA=80002 ";
-    message += "STREAMING=80002\n";
+    message += "STREAMING=80003\n";
     this->client->write( message.toUtf8() );
     bool error = this->client->waitForBytesWritten();
     qDebug() << error;

@@ -1,4 +1,5 @@
 #include "connectionmanager.h"
+#include "usermanager.h"
 #include <QFile>
 #include <QDebug>
 
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
         fields[cont++] = line;
         line = in.readLine();
     }
+
+    UserManager::initiate( fields );
 
 
 
