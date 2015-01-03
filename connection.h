@@ -12,6 +12,7 @@ class Connection : public QThread
 private:
     QTcpSocket* client;
     static const unsigned long SESSION_TIMER;
+    static int computeSessionID();
 
 signals:
     void closed ();

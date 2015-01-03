@@ -1,8 +1,17 @@
 #include "connection.h"
 #include "usermanager.h"
+#include "rsacipher.h"
 #include <QDebug>
+#include <QtGlobal>
+#include <QTime>
 
-const unsigned long Connection::SESSION_TIMER = 5;
+const unsigned long Connection::SESSION_TIMER = 10000;
+
+int Connection::computeSessionID()
+{
+    qsrand( QTime::currentTime().msec() );
+    return ( qrand() % UserManager::getInstance()->getNumOfUsers() + 1 ) * ( qrand() % 50  + 2 );
+}
 
 Connection::Connection(QTcpSocket* client)
 {
@@ -29,11 +38,11 @@ void Connection::run()
 
         }while( !UserManager::getInstance()->isAUser( user ) );
 
-
-        this->client->write( "ok pls pw\n");
+        this->client->write( "pls pw\n");
 
         this->client->waitForReadyRead( -1 );
         answer = this->client->readLine();
+
         answer.chop( 2 );
 
         int attempt = 0;
@@ -48,6 +57,9 @@ void Connection::run()
 
     this->client->write( "ok\n" );
 
+
+    this->client->write( QString( "s.id=" + QString::number( computeSessionID() ) + "\n" ).toUtf8() );
+
     QString message("FileTransfer=80001 ");
     message += "DLNA=80002 ";
     message += "STREAMING=80003\n";
@@ -57,29 +69,34 @@ void Connection::run()
     bool close = false;
     do
     {
-        sleep( SESSION_TIMER );
 
         this->client->write( "are you there?\n" );
         this->client->waitForBytesWritten( -1 );
 
-        bool hasItAnswered = this->client->waitForReadyRead( 2000 );
+        bool hasItAnswered = this->client->waitForReadyRead( SESSION_TIMER );
 
         if( hasItAnswered )
         {
             answer = this->client->readLine();
             answer.chop( 2 );
             qDebug() << answer;
-            if (answer == "Apple Fuck")
+            if ( answer == "halt" )
+            {
                 close = true;
+                this->client->write( "cià\n" );
+                this->client->waitForBytesWritten( -1 );
+
+            }
         }
         else
         {
-            UserManager::getInstance()->getUser( user )->setIsOnline( false );
-            UserManager::getInstance()->getUser( user )->setSessionID( -1 );
+            close = true;
         }
 
     }while ( !close );
 
+    UserManager::getInstance()->getUser( user )->setIsOnline( false );
+    UserManager::getInstance()->getUser( user )->setSessionID( -1 );
     this->client->close();
     delete this->client;
     emit closed();
