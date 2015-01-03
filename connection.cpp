@@ -48,15 +48,14 @@ void Connection::run()
 
     this->client->write( "ok\n" );
 
-
-
     QString message("FileTransfer=80001 ");
     message += "DLNA=80002 ";
     message += "STREAMING=80003\n";
     this->client->write( message.toUtf8() );
     this->client->waitForBytesWritten( -1 );
 
-    while( true )
+    bool close = false;
+    do
     {
         sleep( SESSION_TIMER );
 
@@ -66,16 +65,22 @@ void Connection::run()
         bool hasItAnswered = this->client->waitForReadyRead( 2000 );
 
         if( hasItAnswered )
+        {
             answer = this->client->readLine();
+            answer.chop( 2 );
+            qDebug() << answer;
+            if (answer == "Apple Fuck")
+                close = true;
+        }
         else
         {
             UserManager::getInstance()->getUser( user )->setIsOnline( false );
             UserManager::getInstance()->getUser( user )->setSessionID( -1 );
-            this->client->close();
-
-            emit closed();
-            break;
         }
 
-    }
+    }while ( !close );
+
+    this->client->close();
+    delete this->client;
+    emit closed();
 }
