@@ -10,7 +10,8 @@ HEADERS += \
     userservice.h \
     dlnaservice.h \
     dlnaprocess.h \
-    usermanager.h
+    usermanager.h \
+    rsacipher.h
 
 SOURCES += \
     connectionmanager.cpp \
@@ -19,4 +20,5 @@ SOURCES += \
     user.cpp \
     dlnaservice.cpp \
     dlnaprocess.cpp \
-    usermanager.cpp
+    usermanager.cpp \
+    rsacipher.cpp
