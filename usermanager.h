@@ -18,6 +18,7 @@ public:
     static void initiate(QString* fields );
     User* getUser( QString user );
     bool isAUser( QString user ) const;
+    int getNumOfUsers() const;
     ~UserManager();
 };
 

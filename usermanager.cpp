@@ -33,6 +33,11 @@ bool UserManager::isAUser( QString user ) const
     return (*users).contains( user );
 }
 
+int UserManager::getNumOfUsers() const
+{
+    return this->users->size();
+}
+
 UserManager::~UserManager()
 {
 

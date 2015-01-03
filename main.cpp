@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
-    QFile file("/home/elia/Dropbox/Progetto Condiviso/Incigneria/Server/MEMC_Server/users.txt");
+    QFile file("/home/Suinos/Scrivania/CDL/Software Engineering/Progetto/MEMC_Server/users.txt");
     bool elia = file.open( QIODevice::ReadOnly );
 
     QTextStream in( &file );
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     QString fields[3];
     int cont = 0;
     QString line = in.readLine();
-    while( !line.isNull() )
+    while( cont < 3 )
     {
         fields[cont++] = line;
         line = in.readLine();

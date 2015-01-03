@@ -13,17 +13,33 @@ int Connection::computeSessionID()
     return ( qrand() % UserManager::getInstance()->getNumOfUsers() + 1 ) * ( qrand() % 50  + 2 );
 }
 
+void Connection::closeConnection()
+{
+    if( !user.isEmpty() )
+    {
+        UserManager::getInstance()->getUser( user )->setIsOnline( false );
+        UserManager::getInstance()->getUser( user )->setSessionID( -1 );
+    }
+    this->client->write( "timeout, bye\n" );
+    this->client->waitForBytesWritten( -1 );
+    this->client->close();
+    delete this->client;
+
+    this->terminate();
+    emit closed();
+}
+
 Connection::Connection(QTcpSocket* client)
 {
-    client->setParent(nullptr);
+    client->setParent( nullptr );
     this->client = client;
-    this->client->moveToThread(this);
+    this->client->moveToThread( this );
 }
 
 void Connection::run()
 {
     bool loginCompleted = false;
-    QString user;
+
     QString answer;
     do
     {
@@ -31,8 +47,12 @@ void Connection::run()
         {
             this->client->write( "who?\n");
 
-            this->client->waitForReadyRead( -1 );
+            this->client->waitForReadyRead( SESSION_TIMER );
             user = this->client->readLine();
+
+            if( user.isEmpty() )
+                this->closeConnection();
+
             user.chop( 2 );
             qDebug()<< user;
 
@@ -40,7 +60,7 @@ void Connection::run()
 
         this->client->write( "pls pw\n");
 
-        this->client->waitForReadyRead( -1 );
+        this->client->waitForReadyRead( SESSION_TIMER );
         answer = this->client->readLine();
 
         answer.chop( 2 );
@@ -49,8 +69,13 @@ void Connection::run()
         while( !(loginCompleted = UserManager::getInstance()->getUser( user )->isPasswdCorrect( answer ) ) && attempt < 3 )
         {
             this->client->write( "try again\n" );
-            this->client->waitForReadyRead( -1 );
+            this->client->waitForReadyRead( SESSION_TIMER );
             answer = this->client->readLine();
+
+            if( answer.isEmpty() )
+            {
+                this->closeConnection();
+            }
             attempt++;
         }
     }while( !loginCompleted );
@@ -65,39 +90,36 @@ void Connection::run()
     message += "STREAMING=80003\n";
     this->client->write( message.toUtf8() );
     this->client->waitForBytesWritten( -1 );
+    bool hasItAnswered;
 
-    bool close = false;
-    do
+    while( true )
     {
 
         this->client->write( "are you there?\n" );
         this->client->waitForBytesWritten( -1 );
 
-        bool hasItAnswered = this->client->waitForReadyRead( SESSION_TIMER );
+        hasItAnswered = this->client->waitForReadyRead( SESSION_TIMER );
 
         if( hasItAnswered )
         {
             answer = this->client->readLine();
             answer.chop( 2 );
-            qDebug() << answer;
+
             if ( answer == "halt" )
             {
-                close = true;
                 this->client->write( "cià\n" );
                 this->client->waitForBytesWritten( -1 );
-
+                this->closeConnection();
             }
         }
         else
         {
-            close = true;
+            this->closeConnection();
         }
 
-    }while ( !close );
+        qDebug() << "afsgdfsga";
+    }
 
-    UserManager::getInstance()->getUser( user )->setIsOnline( false );
-    UserManager::getInstance()->getUser( user )->setSessionID( -1 );
-    this->client->close();
-    delete this->client;
-    emit closed();
+
+
 }
