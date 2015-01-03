@@ -7,19 +7,19 @@
 
 class Connection : public QThread
 {
-Q_OBJECT
+    Q_OBJECT
 
 private:
     QTcpSocket* client;
     static const unsigned long SESSION_TIMER;
 
 signals:
-    void closed ( Connection* conn );
+    void closed ();
 
 public:
-    Connection( QTcpSocket* client );
+    Connection(QTcpSocket* client );
 
-    void run() Q_DECL_OVERRIDE;
+    void run();
 };
 
 #endif // CONNECTION_H
