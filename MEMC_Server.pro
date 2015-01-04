@@ -10,7 +10,17 @@ HEADERS += \
     userservice.h \
     dlnaservice.h \
     dlnaprocess.h \
-    usermanager.h
+    usermanager.h \
+    mediafile.h \
+    UserManagerBuilding/userbuildingprotocol.h \
+    UserManagerBuilding/password.h \
+    UserManagerBuilding/totalmemory.h \
+    UserManagerBuilding/userbuilder.h \
+    UserManagerBuilding/userfiledirector.h \
+    UserManagerBuilding/username.h \
+    UserManagerBuilding/endcreation.h \
+    serverapplication.h \
+    UserManagerBuilding/addfile.h
 
 SOURCES += \
     connectionmanager.cpp \
@@ -19,4 +29,14 @@ SOURCES += \
     user.cpp \
     dlnaservice.cpp \
     dlnaprocess.cpp \
-    usermanager.cpp
+    usermanager.cpp \
+    mediafile.cpp \
+    UserManagerBuilding/userbuildingprotocol.cpp \
+    UserManagerBuilding/password.cpp \
+    UserManagerBuilding/totalmemory.cpp \
+    UserManagerBuilding/userbuilder.cpp \
+    UserManagerBuilding/userfiledirector.cpp \
+    UserManagerBuilding/username.cpp \
+    UserManagerBuilding/endcreation.cpp \
+    serverapplication.cpp \
+    UserManagerBuilding/addfile.cpp

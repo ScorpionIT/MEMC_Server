@@ -1,4 +1,5 @@
 #include "usermanager.h"
+#include <QDebug>
 
 UserManager* UserManager::_userManager = nullptr;
 QMap<QString, User*>* UserManager::users = new QMap<QString, User*>();
@@ -18,9 +19,16 @@ UserManager* UserManager::getInstance()
     return _userManager;
 }
 
-void UserManager::initiate( QString* fields )
+void UserManager::initiate(QMap<QString, User*> fields )
 {
-    users->insert( fields[0], new User( fields[0], 1000, QString("/home"), fields[2] ) );
+    for( QMap<QString, User*>::iterator it = fields.begin(); it != fields.end(); it++ )
+    {
+//        qDebug() << it.key();
+//        qDebug() << it.value()->getUserName();
+//        qDebug() << it.value()->getTotalMemorySpace();
+
+        users->insert( it.key(), it.value() );
+    }
 }
 
 User* UserManager::getUser(QString user)

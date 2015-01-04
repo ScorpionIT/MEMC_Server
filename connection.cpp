@@ -1,6 +1,5 @@
 #include "connection.h"
 #include "usermanager.h"
-#include "rsacipher.h"
 #include <QDebug>
 #include <QtGlobal>
 #include <QTime>

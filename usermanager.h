@@ -15,7 +15,7 @@ private:
 
 public:
     static UserManager* getInstance();
-    static void initiate(QString* fields );
+    static void initiate(QMap<QString, User*> fields );
     User* getUser( QString user );
     bool isAUser( QString user ) const;
     int getNumOfUsers() const;

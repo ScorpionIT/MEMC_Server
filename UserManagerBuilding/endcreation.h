@@ -1,0 +1,17 @@
+#ifndef ENDCREATION_H
+#define ENDCREATION_H
+
+#include "userbuildingprotocol.h"
+
+class EndCreation : public UserBuildingProtocol
+{
+private:
+    UserBuildingProtocol* next;
+
+public:
+    EndCreation( UserBuildingProtocol* next, UserBuilder* builder );
+    virtual bool handle( QString line );
+    ~EndCreation();
+};
+
+#endif // ENDCREATION_H
