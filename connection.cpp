@@ -52,7 +52,7 @@ void Connection::run()
             if( user.isEmpty() )
                 this->closeConnection();
 
-            user.chop( 2 );
+            user.chop( 1 );
             qDebug()<< user;
 
         }while( !UserManager::getInstance()->isAUser( user ) );
@@ -62,7 +62,7 @@ void Connection::run()
         this->client->waitForReadyRead( SESSION_TIMER );
         answer = this->client->readLine();
 
-        answer.chop( 2 );
+        answer.chop( 1 );
 
         int attempt = 0;
         while( !(loginCompleted = UserManager::getInstance()->getUser( user )->isPasswdCorrect( answer ) ) && attempt < 3 )
@@ -102,7 +102,7 @@ void Connection::run()
         if( hasItAnswered )
         {
             answer = this->client->readLine();
-            answer.chop( 2 );
+            answer.chop( 1 );
 
             if ( answer == "halt" )
             {
@@ -115,10 +115,6 @@ void Connection::run()
         {
             this->closeConnection();
         }
-
-        qDebug() << "afsgdfsga";
+        msleep ( SESSION_TIMER );
     }
-
-
-
 }
