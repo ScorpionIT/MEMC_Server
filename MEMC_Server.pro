@@ -20,7 +20,8 @@ HEADERS += \
     UserManagerBuilding/username.h \
     UserManagerBuilding/endcreation.h \
     serverapplication.h \
-    UserManagerBuilding/addfile.h
+    UserManagerBuilding/addfile.h \
+    fileservice.h
 
 SOURCES += \
     connectionmanager.cpp \
@@ -39,4 +40,5 @@ SOURCES += \
     UserManagerBuilding/username.cpp \
     UserManagerBuilding/endcreation.cpp \
     serverapplication.cpp \
-    UserManagerBuilding/addfile.cpp
+    UserManagerBuilding/addfile.cpp \
+    fileservice.cpp

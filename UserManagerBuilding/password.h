@@ -3,14 +3,16 @@
 
 #include "userbuildingprotocol.h"
 
-class Password : public UserBuildingProtocol
+namespace UserManagerBuilding
 {
-private:
-    UserBuildingProtocol* next;
-public:
-    Password(UserBuildingProtocol* next, UserBuilder* builder );
-    virtual bool handle( QString line );
-    ~Password();
-};
-
+    class Password : public UserBuildingProtocol
+    {
+    private:
+        UserBuildingProtocol* next;
+    public:
+        Password(UserBuildingProtocol* next, UserBuilder* builder );
+        virtual bool handle( QString line );
+        ~Password();
+    };
+}
 #endif // PASSWORD_H

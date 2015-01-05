@@ -2,7 +2,9 @@
 
 User::User()
 {
-    mediaFiles = new QList<MediaFile*>();
+    musicFiles = new QList<MediaFile*>();
+    videoFiles = new QList<MediaFile*>();
+    imageFiles = new QList<MediaFile*>();
 }
 
 User::User( QString id, unsigned long memorySpace, QString userDirectory, QString passwd )
@@ -50,9 +52,23 @@ void User::setMemoryUsed( unsigned long value )
     memoryUsed = value;
 }
 
-void User::addFile(MediaFile* file)
+void User::addFile( MediaFile* file )
 {
-    mediaFiles->push_back( file );
+    FileType type = file->getType();
+
+    switch( type )
+    {
+    case MUSIC:
+        musicFiles->push_back( file );
+        break;
+    case VIDEO:
+        videoFiles->push_back( file );
+        break;
+    case IMAGE:
+        imageFiles->push_back( file );
+        break;
+
+    }
 }
 
 bool User::getOnLine() const
@@ -60,21 +76,43 @@ bool User::getOnLine() const
     return onLine;
 }
 
-void User::setSessionID( int sessionID )
+
+QList<MediaFile*>* User::getMediaFiles( FileType type ) const
 {
+    switch( type )
+    {
+    case MUSIC:
+        return musicFiles;
+
+    case VIDEO:
+        return videoFiles;
+
+    case IMAGE:
+        return imageFiles;
+
+    default:
+        return nullptr;
+    }
+}
+
+void User::connect( int sessionID )
+{
+    onLine = true;
     this->sessionID = sessionID;
 }
 
-void User::setIsOnline( bool online )
+void User::disconnect()
 {
-    this->onLine = online;
+    onLine = false;
+    this->sessionID = -1;
 }
 
-
-
-bool User::isOnLine() const
+bool User::isOnLine( int sessionID ) const
 {
-    return this->onLine;
+    if( sessionID == -1 )
+        return false;
+
+    return ( this->onLine && this->sessionID == sessionID );
 }
 
 bool User::isPasswdCorrect( QString passwd )

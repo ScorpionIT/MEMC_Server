@@ -2,15 +2,16 @@
 #define TOTALMEMORY_H
 
 #include "userbuildingprotocol.h"
-
-class TotalMemory : public UserBuildingProtocol
+namespace UserManagerBuilding
 {
-private:
-    UserBuildingProtocol* next;
-public:
-    TotalMemory( UserBuildingProtocol* next, UserBuilder* builder );
-    virtual bool handle( QString line );
-    ~TotalMemory();
-};
-
+    class TotalMemory : public UserBuildingProtocol
+    {
+    private:
+        UserBuildingProtocol* next;
+    public:
+        TotalMemory( UserBuildingProtocol* next, UserBuilder* builder );
+        virtual bool handle( QString line );
+        ~TotalMemory();
+    };
+}
 #endif // TOTALMEMORY_H

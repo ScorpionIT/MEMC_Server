@@ -6,6 +6,8 @@
 
 #include <QFile>
 #include <QDebug>
+using namespace UserManagerBuilding;
+
 
 ServerApplication::ServerApplication( QString userFile )
 {
@@ -16,15 +18,18 @@ ServerApplication::ServerApplication( QString userFile )
     UserManager::initiate( builder->getResult() );
 
     connectionManager = new ConnectionManager();
+    fileService = new FileService();
 }
 
 void ServerApplication::start()
 {
     connectionManager->start();
+    fileService->start();
 }
 
 ServerApplication::~ServerApplication()
 {
     delete connectionManager;
+    delete fileService;
 }
 

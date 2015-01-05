@@ -1,4 +1,6 @@
 #include "password.h"
+using namespace UserManagerBuilding;
+
 
 Password::Password( UserBuildingProtocol* next, UserBuilder* builder ) : UserBuildingProtocol( builder ), next( next )
 {

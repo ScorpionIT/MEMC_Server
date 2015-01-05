@@ -4,18 +4,19 @@
 #include <QStringList>
 #include "userbuilder.h"
 #include <QDebug>
-
-class UserBuildingProtocol
+namespace UserManagerBuilding
 {
-protected:
-    UserBuilder* builder;
+    class UserBuildingProtocol
+    {
+    protected:
+        UserBuilder* builder;
 
-public:
-    UserBuildingProtocol( UserBuilder* builder );
+    public:
+        UserBuildingProtocol( UserBuilder* builder );
 
-    virtual bool handle( QString line );
+        virtual bool handle( QString line );
 
-    ~UserBuildingProtocol();
-};
-
+        ~UserBuildingProtocol();
+    };
+}
 #endif // USERBUILDINGPROTOCOL_H

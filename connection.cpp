@@ -6,6 +6,13 @@
 
 const unsigned long Connection::SESSION_TIMER = 10000;
 
+Connection::Connection(QTcpSocket* client)
+{
+    client->setParent( nullptr );
+    this->client = client;
+    this->client->moveToThread( this );
+}
+
 int Connection::computeSessionID()
 {
     qsrand( QTime::currentTime().msec() );
@@ -16,8 +23,7 @@ void Connection::closeConnection()
 {
     if( !user.isEmpty() )
     {
-        UserManager::getInstance()->getUser( user )->setIsOnline( false );
-        UserManager::getInstance()->getUser( user )->setSessionID( -1 );
+        UserManager::getInstance()->getUser( user )->disconnect();
     }
     this->client->write( "timeout, bye\n" );
     this->client->waitForBytesWritten( -1 );
@@ -28,12 +34,6 @@ void Connection::closeConnection()
     emit closed();
 }
 
-Connection::Connection(QTcpSocket* client)
-{
-    client->setParent( nullptr );
-    this->client = client;
-    this->client->moveToThread( this );
-}
 
 void Connection::run()
 {
@@ -52,7 +52,7 @@ void Connection::run()
             if( user.isEmpty() )
                 this->closeConnection();
 
-            user.chop( 2 );
+            user.chop( 1 );
             qDebug()<< user;
 
         }while( !UserManager::getInstance()->isAUser( user ) );
@@ -62,10 +62,10 @@ void Connection::run()
         this->client->waitForReadyRead( SESSION_TIMER );
         answer = this->client->readLine();
 
-        answer.chop( 2 );
+        answer.chop( 1 );
 
-        int attempt = 0;
-        while( !(loginCompleted = UserManager::getInstance()->getUser( user )->isPasswdCorrect( answer ) ) && attempt < 3 )
+        int attempts = 0;
+        while( !(loginCompleted = UserManager::getInstance()->getUser( user )->isPasswdCorrect( answer ) ) && attempts < 3 )
         {
             this->client->write( "try again\n" );
             this->client->waitForReadyRead( SESSION_TIMER );
@@ -75,14 +75,16 @@ void Connection::run()
             {
                 this->closeConnection();
             }
-            attempt++;
+            attempts++;
         }
     }while( !loginCompleted );
 
     this->client->write( "ok\n" );
 
+    User* currentUser = UserManager::getInstance()->getUser( user );
+    currentUser->connect( computeSessionID() );
 
-    this->client->write( QString( "s.id=" + QString::number( computeSessionID() ) + "\n" ).toUtf8() );
+    this->client->write( QString( "s.id=" + QString::number( currentUser->sessionID ) + "\n" ).toUtf8() );
 
     QString message("FileTransfer=80001 ");
     message += "DLNA=80002 ";
@@ -116,7 +118,7 @@ void Connection::run()
             this->closeConnection();
         }
 
-        qDebug() << "afsgdfsga";
+        sleep ( SESSION_TIMER );
     }
 
 

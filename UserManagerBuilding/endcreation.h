@@ -3,15 +3,17 @@
 
 #include "userbuildingprotocol.h"
 
-class EndCreation : public UserBuildingProtocol
+namespace UserManagerBuilding
 {
-private:
-    UserBuildingProtocol* next;
+    class EndCreation : public UserBuildingProtocol
+    {
+    private:
+        UserBuildingProtocol* next;
 
-public:
-    EndCreation( UserBuildingProtocol* next, UserBuilder* builder );
-    virtual bool handle( QString line );
-    ~EndCreation();
-};
-
+    public:
+        EndCreation( UserBuildingProtocol* next, UserBuilder* builder );
+        virtual bool handle( QString line );
+        ~EndCreation();
+    };
+}
 #endif // ENDCREATION_H

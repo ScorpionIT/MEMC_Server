@@ -1,4 +1,6 @@
 #include "username.h"
+using namespace UserManagerBuilding;
+
 
 UserName::UserName(UserBuildingProtocol* next, UserBuilder* builder) : UserBuildingProtocol( builder ), next( next )
 {

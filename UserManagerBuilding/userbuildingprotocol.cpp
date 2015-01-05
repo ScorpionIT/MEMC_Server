@@ -1,4 +1,6 @@
 #include "userbuildingprotocol.h"
+using namespace UserManagerBuilding;
+
 
 UserBuildingProtocol::UserBuildingProtocol( UserBuilder* builder )
 {

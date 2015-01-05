@@ -1,4 +1,6 @@
 #include "endcreation.h"
+using namespace UserManagerBuilding;
+
 
 EndCreation::EndCreation( UserBuildingProtocol* next, UserBuilder* builder ) : UserBuildingProtocol( builder ), next( next )
 {

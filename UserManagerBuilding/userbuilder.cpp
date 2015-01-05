@@ -1,12 +1,15 @@
 #include "userbuilder.h"
 #include <QStringList>
+using namespace UserManagerBuilding;
+
+#include <QDebug>
 
 UserBuilder::UserBuilder()
 {
 
 }
 
-void UserBuilder::setEntryPoint(QString entryPoint)
+void UserBuilder::setEntryPoint( QString entryPoint )
 {
     this->entryPoint = entryPoint;
 }
@@ -32,6 +35,8 @@ void UserBuilder::addFile( QString file )
 
     QString path = entryPoint + currentUser->getUserName() + "/" + tokens[0];
 
+    qDebug() << "il path del file è "<< path;
+
     newFile->setPath( path );
 
     if( tokens[1] == "public" )
@@ -40,16 +45,17 @@ void UserBuilder::addFile( QString file )
         newFile->set_Public( false );
 
     tokens = tokens[0].split( "/" );
+    qDebug() << "il tipo è "<< tokens[0];
 
     if( tokens[0] == "Music" )
         newFile->setType( FileType::MUSIC );
     else if( tokens[0] == "Videos" )
         newFile->setType( FileType::VIDEO );
     else
-        newFile->setType( FileType::IMAGE);
+        newFile->setType( FileType::IMAGE );
 
 
-    if( file.size() + currentUser->getMemoryUsed() < currentUser->getTotalMemorySpace() )
+   // if( file.size() + currentUser->getMemoryUsed() < currentUser->getTotalMemorySpace() )
         currentUser->addFile( newFile );
 
 
@@ -64,6 +70,16 @@ void UserBuilder::setTotalMemory( QString totalMemory )
 void UserBuilder::putUser()
 {
     result.insert( currentUser->getUserName(), currentUser );
+}
+
+User* UserBuilder::getCurrentUser() const
+{
+    return currentUser;
+}
+
+QString UserBuilder::getEntryPoint() const
+{
+    return entryPoint;
 }
 
 QMap<QString, User*> UserBuilder::getResult() const

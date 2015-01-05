@@ -3,11 +3,14 @@
 #include "password.h"
 #include "totalmemory.h"
 #include "username.h"
+#include "addfile.h"
 
 #include "../usermanager.h"
 
 #include <QTextStream>
 #include <QDebug>
+using namespace UserManagerBuilding;
+
 
 UserFileDirector::UserFileDirector( UserBuilder* builder, QString userFilePath ) : builder( builder ), userFilePath( userFilePath )
 {
@@ -19,7 +22,8 @@ void UserFileDirector::startBuilding()
     EndCreation endCreation( nullptr, builder );
     Password password( &endCreation, builder );
     TotalMemory totMemory( &password, builder );
-    UserName chain( &totMemory, builder );
+    AddFile addFile( &totMemory, builder );
+    UserName chain( &addFile, builder );
 
     QFile file( userFilePath );
 
@@ -31,9 +35,13 @@ void UserFileDirector::startBuilding()
 
     QTextStream in( &file );
 
+    QString line = in.readLine();
+
+    builder->setEntryPoint( line );
+
     while ( !in.atEnd() )
     {
-        QString line = in.readLine();
+        line = in.readLine();
 
         qDebug() << line;
         if( line == "BEGINNING" )
@@ -44,6 +52,8 @@ void UserFileDirector::startBuilding()
         chain.handle( line );
 
     }
+
+    file.close();
 }
 
 UserFileDirector::~UserFileDirector()

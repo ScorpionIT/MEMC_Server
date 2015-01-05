@@ -17,19 +17,24 @@ private:
     bool onLine;
     int sessionID = -1;
 
-    QList<MediaFile*>* mediaFiles;
+    QList<MediaFile*>* musicFiles;
+    QList<MediaFile*>* videoFiles;
+    QList<MediaFile*>* imageFiles;
 
+    void connect( int sessionID );
+    void disconnect();
     void setSessionID( int sessionID );
     void setIsOnline( bool online );
 
 public:
      User();
      User( QString userName, unsigned long totalMemorySpace, QString userDirectory, QString passwd );
+     ~User();
 
-     bool isOnLine() const;
+     bool isOnLine( int sessionID ) const;
      bool isPasswdCorrect( QString passwd );
+
      QString getUserDirectory() const;
-    ~User();
 
      QString getUserName() const;
      void setUserName( const QString& value );
@@ -46,8 +51,10 @@ public:
 
      bool getOnLine() const;
 
+     QList<MediaFile*>* getMediaFiles( FileType type ) const;
 
      friend class Connection;
+
 };
 
 #endif // USER_H

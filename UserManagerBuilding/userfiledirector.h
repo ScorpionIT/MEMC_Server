@@ -5,18 +5,21 @@
 #include <QString>
 #include "userbuilder.h"
 
-class UserFileDirector
+namespace UserManagerBuilding
 {
-private:
-    UserBuilder* builder;
-    QString userFilePath;
+    class UserFileDirector
+    {
+    private:
+        UserBuilder* builder;
+        QString userFilePath;
 
-public:
-    UserFileDirector( UserBuilder* builder, QString userFilePath );
+    public:
+        UserFileDirector( UserBuilder* builder, QString userFilePath );
 
-    void startBuilding();
+        void startBuilding();
 
-    ~UserFileDirector();
-};
+        ~UserFileDirector();
+    };
 
+}
 #endif // USERFILEDIRECTOR_H

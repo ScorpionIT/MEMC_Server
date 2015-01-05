@@ -1,4 +1,7 @@
 #include "totalmemory.h"
+using namespace UserManagerBuilding;
+
+
 
 TotalMemory::TotalMemory( UserBuildingProtocol* next, UserBuilder* builder ) : UserBuildingProtocol( builder ), next( next )
 {
