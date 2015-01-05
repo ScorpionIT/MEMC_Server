@@ -104,7 +104,7 @@ void Connection::run()
         if( hasItAnswered )
         {
             answer = this->client->readLine();
-            answer.chop( 2 );
+            answer.chop( 1 );
 
             if ( answer == "halt" )
             {
@@ -117,10 +117,11 @@ void Connection::run()
         {
             this->closeConnection();
         }
+<<<<<<< HEAD
 
         sleep ( SESSION_TIMER );
+=======
+        msleep ( SESSION_TIMER );
+>>>>>>> 30e0df9fa09bd846bd3cf3cea531c770d164c7b6
     }
-
-
-
 }
