@@ -43,7 +43,6 @@ void UserFileDirector::startBuilding()
     {
         line = in.readLine();
 
-        qDebug() << line;
         if( line == "BEGINNING" )
         {
             continue;
@@ -58,6 +57,6 @@ void UserFileDirector::startBuilding()
 
 UserFileDirector::~UserFileDirector()
 {
-
+    delete builder;
 }
 

@@ -51,9 +51,13 @@ void FileService::run()
         }
         else
         {
+            this->client->write( "ok\n" );
+            this->client->waitForBytesWritten( -1 );
+
             this->client->write( "? [MUSIC=1, VIDEOS=2, IMAGES=3]\n" );
             this->client->waitForBytesWritten( -1 );
 
+            this->client->waitForReadyRead();
             int choice = QString( this->client->readLine() ).toInt();
 
             QList<MediaFile*>* files;
@@ -74,10 +78,10 @@ void FileService::run()
                 this->client->write( "error\n" );
                 this->client->waitForBytesWritten( -1 );
                 this->client->close();
-                return;
+                continue;
             }
 
-            if( files == nullptr )
+            if( files == nullptr || files->isEmpty() )
             {
                 this->client->write( "no files\n" );
                 this->client->waitForBytesWritten( -1 );
