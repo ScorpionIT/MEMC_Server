@@ -27,10 +27,10 @@ void UserFileDirector::startBuilding()
 
     QFile file( userFilePath );
 
-    if( !file.exists() );
+    if( !file.exists() ){}
     //throw
 
-    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) );
+    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ){}
     //throw
 
     QTextStream in( &file );

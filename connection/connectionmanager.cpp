@@ -1,5 +1,7 @@
 #include "connectionmanager.h"
 
+using namespace connection;
+
 void ConnectionManager::killThreadConnetion()
 {
     this->clientConnections.removeOne( ( Connection* )sender() );

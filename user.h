@@ -5,6 +5,7 @@
 #include <QList>
 
 #include "mediafile.h"
+#include "./connection/connection.h"
 
 class User
 {
@@ -35,6 +36,7 @@ public:
      bool isPasswdCorrect( QString passwd );
 
      QString getUserDirectory() const;
+     void setUserDirectory( QString path );
 
      QString getUserName() const;
      void setUserName( const QString& value );
@@ -53,7 +55,7 @@ public:
 
      QList<MediaFile*>* getMediaFiles( FileType type ) const;
 
-     friend class Connection;
+     friend class connection::Connection;
 
 };
 

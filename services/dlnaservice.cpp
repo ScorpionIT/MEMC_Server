@@ -2,6 +2,9 @@
 #include <QStringList>
 #include <string>
 
+using namespace services;
+using namespace dlna;
+
 DLNAService::DLNAService()
 {
     processes = new QVector<DLNAProcess*>();
@@ -10,7 +13,7 @@ DLNAService::DLNAService()
 
 void DLNAService::start()
 {
-    bool error = this->serverSocket->listen( QHostAddress::Any, 80001 );
+    this->serverSocket->listen( QHostAddress::Any, 80001 );
 
     while( true )
     {

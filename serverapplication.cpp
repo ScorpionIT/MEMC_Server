@@ -2,7 +2,8 @@
 #include "./UserManagerBuilding/userfiledirector.h"
 #include "./UserManagerBuilding/userbuilder.h"
 #include "usermanager.h"
-#include "connectionmanager.h"
+#include "./connection/connectionmanager.h"
+#include "./services/loadfileservice.h"
 
 #include <QFile>
 #include <QDebug>
@@ -19,17 +20,20 @@ ServerApplication::ServerApplication( QString userFile )
 
     connectionManager = new ConnectionManager();
     fileService = new FileService();
+    loadFileService = new LoadFileService();
 }
 
 void ServerApplication::start()
 {
     connectionManager->start();
     fileService->start();
+    loadFileService->start();
 }
 
 ServerApplication::~ServerApplication()
 {
     delete connectionManager;
     delete fileService;
+    delete loadFileService;
 }
 

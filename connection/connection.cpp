@@ -4,6 +4,8 @@
 #include <QtGlobal>
 #include <QTime>
 
+using namespace connection;
+
 const unsigned long Connection::SESSION_TIMER = 10000;
 
 Connection::Connection(QTcpSocket* client)
@@ -117,11 +119,12 @@ void Connection::run()
         {
             this->closeConnection();
         }
-<<<<<<< HEAD
 
         sleep ( SESSION_TIMER );
-=======
-        msleep ( SESSION_TIMER );
->>>>>>> 30e0df9fa09bd846bd3cf3cea531c770d164c7b6
     }
+}
+
+Connection::~Connection()
+{
+    delete client;
 }

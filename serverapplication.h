@@ -2,14 +2,20 @@
 #define SERVERAPPLICATION_H
 
 #include <QString>
-#include "connectionmanager.h"
-#include "fileservice.h"
+#include "./connection/connectionmanager.h"
+#include "./services/fileservice.h"
+#include "./services/loadfileservice.h"
+
+using namespace connection;
+using namespace services;
+
 
 class ServerApplication
 {
 private:
     ConnectionManager* connectionManager;
     FileService* fileService;
+    LoadFileService* loadFileService;
 
 
 public:

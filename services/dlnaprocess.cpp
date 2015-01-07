@@ -2,6 +2,8 @@
 #include <QProcess>
 #include <QStringList>
 
+using namespace services;
+
 void DLNAProcess::run()
 {
     QProcess mediaTombProcess;

@@ -3,6 +3,8 @@
 #include <QString>
 #include <QStringList>
 
+using namespace services;
+
 static const int SESSION_TIMER = 500;
 
 FileService::FileService()
@@ -103,6 +105,7 @@ void FileService::run()
 
 FileService::~FileService()
 {
-
+    delete serverSocket;
+    delete client;
 }
 

@@ -125,6 +125,11 @@ QString User::getUserDirectory() const
     return this->userDirectory;
 }
 
+void User::setUserDirectory( QString path )
+{
+    this->userDirectory = path;
+}
+
 User::~User()
 {
 

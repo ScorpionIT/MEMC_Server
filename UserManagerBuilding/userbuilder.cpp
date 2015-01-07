@@ -19,6 +19,7 @@ void UserBuilder::createUser( QString username )
     this->currentUser = new User();
 
     currentUser->setUserName( username );
+    currentUser->setUserDirectory( entryPoint + username + "/");
 
 }
 

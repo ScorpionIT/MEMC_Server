@@ -4,12 +4,8 @@ QT += network \
 CONFIG += c++11
 
 HEADERS += \
-    connectionmanager.h \
-    connection.h \
     user.h \
     userservice.h \
-    dlnaservice.h \
-    dlnaprocess.h \
     usermanager.h \
     mediafile.h \
     UserManagerBuilding/userbuildingprotocol.h \
@@ -21,15 +17,17 @@ HEADERS += \
     UserManagerBuilding/endcreation.h \
     serverapplication.h \
     UserManagerBuilding/addfile.h \
-    fileservice.h
+    connection/connection.h \
+    connection/connectionmanager.h \
+    services/dlnaprocess.h \
+    services/dlnaservice.h \
+    services/fileservice.h \
+    services/loadfileconnection.h \
+    services/loadfileservice.h
 
 SOURCES += \
-    connectionmanager.cpp \
-    connection.cpp \
     main.cpp \
     user.cpp \
-    dlnaservice.cpp \
-    dlnaprocess.cpp \
     usermanager.cpp \
     mediafile.cpp \
     UserManagerBuilding/userbuildingprotocol.cpp \
@@ -41,4 +39,10 @@ SOURCES += \
     UserManagerBuilding/endcreation.cpp \
     serverapplication.cpp \
     UserManagerBuilding/addfile.cpp \
-    fileservice.cpp
+    connection/connection.cpp \
+    connection/connectionmanager.cpp \
+    services/dlnaprocess.cpp \
+    services/dlnaservice.cpp \
+    services/fileservice.cpp \
+    services/loadfileconnection.cpp \
+    services/loadfileservice.cpp

@@ -1,4 +1,4 @@
-#include "connectionmanager.h"
+#include "./connection/connectionmanager.h"
 #include "usermanager.h"
 #include <QCoreApplication>
 #include <QFile>
