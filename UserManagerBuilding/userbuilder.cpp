@@ -20,7 +20,6 @@ void UserBuilder::createUser( QString username )
 
     currentUser->setUserName( username );
     currentUser->setUserDirectory( entryPoint + username + "/");
-
 }
 
 void UserBuilder::createPasswd( QString passwd )
@@ -46,7 +45,8 @@ void UserBuilder::addFile( QString file )
         newFile->set_Public( false );
 
     tokens = tokens[0].split( "/" );
-    qDebug() << "il tipo è "<< tokens[0];
+
+    newFile->setName( tokens[1] );
 
     if( tokens[0] == "Music" )
         newFile->setType( FileType::MUSIC );

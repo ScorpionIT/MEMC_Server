@@ -42,6 +42,7 @@ void UserFileDirector::startBuilding()
     while ( !in.atEnd() )
     {
         line = in.readLine();
+        qDebug() << line;
 
         if( line == "BEGINNING" )
         {

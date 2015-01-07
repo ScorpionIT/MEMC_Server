@@ -3,39 +3,22 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QDebug>
+#include <QDir>
 #include "serverapplication.h"
 
 
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
-    //    QFile file("/home/Suinos/Scrivania/CDL/Software Engineering/Progetto/MEMC_Server/users.txt");
-    //    bool elia = file.open( QIODevice::ReadOnly );
 
-    //    QTextStream in( &file );
+    QDir dir;
+    QString path = dir.homePath();
 
-    //    QString fields[3];
-    //    int cont = 0;
-    //    QString line = in.readLine();
-    //    while( cont < 3 )
-    //    {
-    //        fields[cont++] = line;
-    //        line = in.readLine();
-    //    }
+    path += "/Dropbox/Progetto Condiviso/Incigneria/users.txt";
 
-    //UserManager::initiate( fields );
-
-    ServerApplication* server = new ServerApplication( "/home/Suinos/Scrivania/CDL/Software Engineering/Progetto/MEMC_Server/users.txt" );
-    //server
-
+    ServerApplication* server = new ServerApplication( path );
     server->start();
 
-
-
-
-
-    //ConnectionManager* connectionManager = new ConnectionManager();
-    //connectionManager->start();
     return app.exec();
 }
 

@@ -1,5 +1,8 @@
 #include "mediafile.h"
 
+MediaFile::MediaFile()
+{
+}
 
 QString MediaFile::getOwner() const
 {
@@ -38,7 +41,7 @@ unsigned long MediaFile::getSize() const
 
 void MediaFile::setSize( unsigned long size )
 {
-    size = size;
+    this->size = size;
 }
 
 bool MediaFile::isPublic() const
@@ -50,13 +53,20 @@ void MediaFile::set_Public(bool _public)
 {
     this->_public = _public;
 }
-MediaFile::MediaFile()
-{
 
+QString MediaFile::getName() const
+{
+    return name;
 }
+
+void MediaFile::setName(const QString& name)
+{
+    this->name = name;
+}
+
 
 MediaFile::~MediaFile()
 {
-
+    
 }
 

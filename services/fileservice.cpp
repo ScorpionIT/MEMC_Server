@@ -91,7 +91,7 @@ void FileService::run()
             {
                 for( QList<MediaFile*>::iterator it = files->begin(); it != files->end(); it++ )
                 {
-                    this->client->write( (*it)->getPath().toUtf8() + "\n" );
+                    this->client->write( (*it)->getName().toUtf8() + "\n" );
                     this->client->waitForBytesWritten( -1 );
                 }
                 this->client->write( "end\n" );

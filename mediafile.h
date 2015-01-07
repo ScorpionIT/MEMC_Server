@@ -8,6 +8,7 @@ enum FileType { MUSIC = 0, VIDEO, IMAGE };
 class MediaFile
 {
 private:
+    QString name;
     QString owner;
     QString path;
     FileType type;
@@ -16,6 +17,9 @@ private:
 
 public:
     MediaFile();
+
+    QString getName() const;
+    void setName( const QString& name );
 
     QString getOwner() const;
     void setOwner( const QString& owner );
