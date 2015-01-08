@@ -39,7 +39,7 @@ void FileService::run()
 
         UserManager* userManager = UserManager::getInstance();
 
-        userName_ID[1].chop( 2 );
+        userName_ID[1].chop( 1 );
 
         qDebug() << "il primo è " << userName_ID[0] << " il secondo invece " << userName_ID[1];
 
