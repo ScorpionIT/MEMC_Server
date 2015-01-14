@@ -7,7 +7,7 @@
 #include <QReadWriteLock>
 #include <QReadLocker>
 
-namespace user
+namespace users
 {
     class UserManager
     {
@@ -19,8 +19,8 @@ namespace user
 
         UserManager();
 
-        void addUser( User* user );
-        void removeUser( QString user );
+        void addUser( User* users );
+        void removeUser( QString users );
 
     public:
         static UserManager* getInstance();
@@ -29,8 +29,8 @@ namespace user
         static void takeLock();
         static void leaveLock();
 
-        User* getUser( QString user );
-        bool isAUser( QString user ) const;
+        User* getUser( QString users );
+        bool isAUser( QString users ) const;
         int getNumOfUsers() const;
         ~UserManager();
     };

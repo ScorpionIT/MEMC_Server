@@ -25,7 +25,9 @@ HEADERS += \
     services/fileservice.h \
     services/loadfileconnection.h \
     services/loadfileservice.h \
-    adminuser.h
+    adminuser.h \
+    services/userfilemanager.h \
+    services/userfilemanagerconnection.h
 
 SOURCES += \
     main.cpp \
@@ -48,4 +50,6 @@ SOURCES += \
     services/fileservice.cpp \
     services/loadfileconnection.cpp \
     services/loadfileservice.cpp \
-    adminuser.cpp
+    adminuser.cpp \
+    services/userfilemanager.cpp \
+    services/userfilemanagerconnection.cpp

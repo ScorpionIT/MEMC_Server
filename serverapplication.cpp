@@ -21,6 +21,7 @@ ServerApplication::ServerApplication( QString userFile )
     connectionManager = new ConnectionManager();
     fileService = new FileService();
     loadFileService = new LoadFileService();
+    userFileManager = new UserFileManager();
 }
 
 void ServerApplication::start()
@@ -28,6 +29,7 @@ void ServerApplication::start()
     connectionManager->start();
     fileService->start();
     loadFileService->start();
+    userFileManager->start();
 }
 
 ServerApplication::~ServerApplication()

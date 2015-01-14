@@ -5,7 +5,7 @@
 #include <QTime>
 
 using namespace connection;
-using namespace user;
+using namespace users;
 
 const unsigned long Connection::SESSION_TIMER = 10000;
 
@@ -114,7 +114,7 @@ void Connection::run()
 
             if ( answer == "halt" )
             {
-                this->client->write( "cià\n" );
+                this->client->write( "bye\n" );
                 this->client->waitForBytesWritten( -1 );
                 this->closeConnection();
             }

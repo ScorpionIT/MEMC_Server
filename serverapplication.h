@@ -5,6 +5,7 @@
 #include "./connection/connectionmanager.h"
 #include "./services/fileservice.h"
 #include "./services/loadfileservice.h"
+#include "./services/userfilemanager.h"
 
 using namespace connection;
 using namespace services;
@@ -16,6 +17,7 @@ private:
     ConnectionManager* connectionManager;
     FileService* fileService;
     LoadFileService* loadFileService;
+    UserFileManager* userFileManager;
 
 
 public:

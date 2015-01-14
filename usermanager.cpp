@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QMutexLocker>
 
-using namespace user;
+using namespace users;
 
 UserManager* UserManager::_userManager = nullptr;
 QMap<QString, User*>* UserManager::users = new QMap<QString, User*>();

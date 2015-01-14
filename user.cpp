@@ -2,7 +2,7 @@
 
 //using namespace services;
 //using namespace dlna;
-using namespace user;
+using namespace users;
 
 User::User()
 {
@@ -89,6 +89,16 @@ QMap<QString, MediaFile*>* User::getMediaFiles( FileType type ) const
     default:
         return nullptr;
     }
+}
+
+MediaFile* User::takeFile( QString name )
+{
+    if( musicFiles->contains( name ) )
+        return musicFiles->take( name );
+    else if( videoFiles->contains( name ) )
+        return videoFiles->take( name );
+    else if( imageFiles->contains( name ) )
+        return imageFiles->take( name );
 }
 
 void User::addDLNASharing( QString pid, services::dlna::DLNAProcess* sharing )

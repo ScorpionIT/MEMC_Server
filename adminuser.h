@@ -3,7 +3,7 @@
 
 #include <QString>
 #include "user.h"
-using namespace user;
+using namespace users;
 
 class AdminUser : public User
 {

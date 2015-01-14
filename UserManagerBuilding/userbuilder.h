@@ -4,7 +4,7 @@
 #include "../user.h"
 #include <QMap>
 
-using namespace user;
+using namespace users;
 
 namespace UserManagerBuilding
 {

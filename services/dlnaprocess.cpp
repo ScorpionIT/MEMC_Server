@@ -5,7 +5,7 @@
 
 using namespace services;
 using namespace dlna;
-using namespace user;
+using namespace users;
 
 DLNAProcess::DLNAProcess( QTcpSocket* client )
 {

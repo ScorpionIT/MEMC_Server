@@ -9,7 +9,7 @@
 #include "connection/connection.h"
 #include "services/dlnaprocess.h"
 
-namespace user
+namespace users
 {
 
 
@@ -61,6 +61,8 @@ namespace user
          bool getOnLine() const;
 
          QMap<QString, MediaFile*>* getMediaFiles( FileType type ) const;
+
+         MediaFile* takeFile( QString name );
 
          void addDLNASharing( QString pid, services::dlna::DLNAProcess* sharing );
          bool removeDLNASharing( QString pid );

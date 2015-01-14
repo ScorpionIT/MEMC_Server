@@ -1,10 +1,12 @@
 #include "fileservice.h"
 #include "usermanager.h"
 #include <QString>
+#include <string>
+using namespace std;
 #include <QStringList>
 
 using namespace services;
-using namespace user;
+using namespace users;
 
 static const int SESSION_TIMER = 500;
 
@@ -41,8 +43,6 @@ void FileService::run()
         UserManager* userManager = UserManager::getInstance();
 
         userName_ID[1].chop( 1 );
-
-        qDebug() << "il primo è " << userName_ID[0] << " il secondo invece " << userName_ID[1];
 
         if( !userManager->getUser( userName_ID[0] )->isOnLine( userName_ID[1].toInt() ) )
         {
@@ -92,7 +92,7 @@ void FileService::run()
             {
                 for( QMap<QString, MediaFile*>::iterator it = files->begin(); it != files->end(); it++ )
                 {
-                    this->client->write( (*it)->getName().toUtf8() + "\n" );
+                    this->client->write( ( (*it)->getName().toUtf8() + QString( (*it)->isPublic() ? "$public" : "$private" ) + QString( "\n" ) ).toStdString().c_str() );
                     this->client->waitForBytesWritten( -1 );
                 }
                 this->client->write( "end\n" );
