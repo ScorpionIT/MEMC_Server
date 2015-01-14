@@ -110,7 +110,7 @@ void Connection::run()
 
             if ( answer == "halt" )
             {
-                this->client->write( "cià\n" );
+                this->client->write( "bye\n" );
                 this->client->waitForBytesWritten( -1 );
                 this->closeConnection();
             }
