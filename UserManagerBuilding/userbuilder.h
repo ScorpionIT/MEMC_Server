@@ -4,6 +4,8 @@
 #include "../user.h"
 #include <QMap>
 
+using namespace user;
+
 namespace UserManagerBuilding
 {
     class UserBuilder

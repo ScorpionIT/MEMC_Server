@@ -12,7 +12,7 @@ namespace UserManagerBuilding
     public:
         Password(UserBuildingProtocol* next, UserBuilder* builder );
         virtual bool handle( QString line );
-        ~Password();
+        virtual ~Password();
     };
 }
 #endif // PASSWORD_H

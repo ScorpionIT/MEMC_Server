@@ -16,7 +16,7 @@ namespace UserManagerBuilding
 
         virtual bool handle( QString line );
 
-        ~UserBuildingProtocol();
+        virtual ~UserBuildingProtocol();
     };
 }
 #endif // USERBUILDINGPROTOCOL_H

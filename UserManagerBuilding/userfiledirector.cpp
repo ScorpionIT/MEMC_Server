@@ -19,11 +19,11 @@ UserFileDirector::UserFileDirector( UserBuilder* builder, QString userFilePath )
 
 void UserFileDirector::startBuilding()
 {
-    EndCreation endCreation( nullptr, builder );
-    Password password( &endCreation, builder );
-    TotalMemory totMemory( &password, builder );
-    AddFile addFile( &totMemory, builder );
-    UserName chain( &addFile, builder );
+    EndCreation* endCreation = new EndCreation( nullptr, builder );
+    Password* password = new Password( endCreation, builder );
+    TotalMemory* totMemory = new TotalMemory( password, builder );
+    AddFile* addFile = new AddFile( totMemory, builder );
+    UserName* chain = new UserName( addFile, builder );
 
     QFile file( userFilePath );
 
@@ -42,18 +42,23 @@ void UserFileDirector::startBuilding()
     while ( !in.atEnd() )
     {
         line = in.readLine();
-        qDebug() << line;
 
         if( line == "BEGINNING" )
         {
             continue;
         }
 
-        chain.handle( line );
+        chain->handle( line );
 
     }
 
     file.close();
+
+    delete endCreation;
+    delete password;
+    delete totMemory;
+    delete addFile;
+    delete chain;
 }
 
 UserFileDirector::~UserFileDirector()

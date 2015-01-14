@@ -1,11 +1,12 @@
 QT += network \
       core
 
+QT -= gui
+
 CONFIG += c++11
 
 HEADERS += \
     user.h \
-    userservice.h \
     usermanager.h \
     mediafile.h \
     UserManagerBuilding/userbuildingprotocol.h \
@@ -23,7 +24,8 @@ HEADERS += \
     services/dlnaservice.h \
     services/fileservice.h \
     services/loadfileconnection.h \
-    services/loadfileservice.h
+    services/loadfileservice.h \
+    adminuser.h
 
 SOURCES += \
     main.cpp \
@@ -45,4 +47,5 @@ SOURCES += \
     services/dlnaservice.cpp \
     services/fileservice.cpp \
     services/loadfileconnection.cpp \
-    services/loadfileservice.cpp
+    services/loadfileservice.cpp \
+    adminuser.cpp

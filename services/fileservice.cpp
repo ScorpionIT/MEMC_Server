@@ -4,6 +4,7 @@
 #include <QStringList>
 
 using namespace services;
+using namespace user;
 
 static const int SESSION_TIMER = 500;
 
@@ -39,7 +40,7 @@ void FileService::run()
 
         UserManager* userManager = UserManager::getInstance();
 
-        userName_ID[1].chop( 2 );
+        userName_ID[1].chop( 1 );
 
         qDebug() << "il primo è " << userName_ID[0] << " il secondo invece " << userName_ID[1];
 
@@ -60,7 +61,7 @@ void FileService::run()
             this->client->waitForReadyRead();
             int choice = QString( this->client->readLine() ).toInt();
 
-            QList<MediaFile*>* files;
+            QMap<QString, MediaFile*>* files;
 
             switch( choice )
             {
@@ -89,7 +90,7 @@ void FileService::run()
             }
             else
             {
-                for( QList<MediaFile*>::iterator it = files->begin(); it != files->end(); it++ )
+                for( QMap<QString, MediaFile*>::iterator it = files->begin(); it != files->end(); it++ )
                 {
                     this->client->write( (*it)->getName().toUtf8() + "\n" );
                     this->client->waitForBytesWritten( -1 );

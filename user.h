@@ -3,60 +3,70 @@
 
 #include <QString>
 #include <QList>
-
+#include <QMap>
 #include "mediafile.h"
-#include "./connection/connection.h"
 
-class User
+#include "connection/connection.h"
+#include "services/dlnaprocess.h"
+
+namespace user
 {
-private:
-    QString userName;
-    unsigned long totalMemorySpace;
-    unsigned long memoryUsed;
-    QString userDirectory;
-    QString passwd;
-    bool onLine;
-    int sessionID = -1;
 
-    QList<MediaFile*>* musicFiles;
-    QList<MediaFile*>* videoFiles;
-    QList<MediaFile*>* imageFiles;
 
-    void connect( int sessionID );
-    void disconnect();
-    void setSessionID( int sessionID );
-    void setIsOnline( bool online );
+    class User
+    {
+    private:
+        QString userName;
+        unsigned long totalMemorySpace;
+        unsigned long memoryUsed;
+        QString userDirectory;
+        QString passwd;
+        bool onLine;
+        int sessionID = -1;
 
-public:
-     User();
-     User( QString userName, unsigned long totalMemorySpace, QString userDirectory, QString passwd );
-     ~User();
+        QMap<QString, MediaFile*>* musicFiles;
+        QMap<QString, MediaFile*>* videoFiles;
+        QMap<QString, MediaFile*>* imageFiles;
 
-     bool isOnLine( int sessionID ) const;
-     bool isPasswdCorrect( QString passwd );
+        QMap<QString, services::dlna::DLNAProcess*>* dlnaSharing; //= new QMap<QString, DLNAProcess*>();
 
-     QString getUserDirectory() const;
-     void setUserDirectory( QString path );
+        void connect( int sessionID );
+        void disconnect();
+        void setSessionID( int sessionID );
+        void setIsOnline( bool online );
 
-     QString getUserName() const;
-     void setUserName( const QString& value );
+    public:
+         User();
+         ~User();
 
-     void setPasswd( QString passwd );
+         bool isOnLine( int sessionID ) const;
+         bool isPasswdCorrect( QString passwd );
 
-     unsigned long getTotalMemorySpace() const;
-     void setTotalMemorySpace( unsigned long value );
+         QString getUserDirectory() const;
+         void setUserDirectory( QString path );
 
-     unsigned long getMemoryUsed() const;
-     void setMemoryUsed( unsigned long value );
+         QString getUserName() const;
+         void setUserName( const QString& value );
 
-     void addFile( MediaFile* file );
+         void setPasswd( QString passwd );
 
-     bool getOnLine() const;
+         unsigned long getTotalMemorySpace() const;
+         void setTotalMemorySpace( unsigned long value );
 
-     QList<MediaFile*>* getMediaFiles( FileType type ) const;
+         unsigned long getMemoryUsed() const;
+         void setMemoryUsed( unsigned long value );
 
-     friend class connection::Connection;
+         void addFile( MediaFile* file );
 
-};
+         bool getOnLine() const;
 
+         QMap<QString, MediaFile*>* getMediaFiles( FileType type ) const;
+
+         void addDLNASharing( QString pid, services::dlna::DLNAProcess* sharing );
+         bool removeDLNASharing( QString pid );
+
+         friend class connection::Connection;
+
+    };
+}
 #endif // USER_H

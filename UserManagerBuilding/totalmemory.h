@@ -11,7 +11,7 @@ namespace UserManagerBuilding
     public:
         TotalMemory( UserBuildingProtocol* next, UserBuilder* builder );
         virtual bool handle( QString line );
-        ~TotalMemory();
+        virtual ~TotalMemory();
     };
 }
 #endif // TOTALMEMORY_H

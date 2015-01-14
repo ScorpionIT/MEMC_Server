@@ -1,16 +1,33 @@
 #include "usermanager.h"
 #include <QDebug>
+#include <QMutexLocker>
+
+using namespace user;
 
 UserManager* UserManager::_userManager = nullptr;
 QMap<QString, User*>* UserManager::users = new QMap<QString, User*>();
+QReadWriteLock* UserManager::lock = new QReadWriteLock();
 
 UserManager::UserManager()
 {
 
 }
 
+void UserManager::addUser( User* user )
+{
+    QWriteLocker writeLocker( lock );
+    users->insert( user->getUserName(), user );
+}
+
+void UserManager::removeUser(QString user)
+{
+    QWriteLocker writeLocker( lock );
+    users->remove( user );
+}
+
 UserManager* UserManager::getInstance()
 {
+    QReadLocker locker( lock );
     if( _userManager == nullptr )
     {
         _userManager = new UserManager();
@@ -23,16 +40,24 @@ void UserManager::initiate(QMap<QString, User*> fields )
 {
     for( QMap<QString, User*>::iterator it = fields.begin(); it != fields.end(); it++ )
     {
-//        qDebug() << it.key();
-//        qDebug() << it.value()->getUserName();
-//        qDebug() << it.value()->getTotalMemorySpace();
-
         users->insert( it.key(), it.value() );
     }
 }
 
+void UserManager::takeLock()
+{
+    lock->lockForRead();
+}
+
+void UserManager::leaveLock()
+{
+    lock->unlock();
+}
+
 User* UserManager::getUser(QString user)
 {
+    QReadLocker locker( lock );
+
     return (*users)[user];
 }
 
@@ -48,6 +73,13 @@ int UserManager::getNumOfUsers() const
 
 UserManager::~UserManager()
 {
+    if( users != nullptr )
+        delete users;
 
+    if( lock != nullptr )
+        delete lock;
+
+    if( _userManager != nullptr )
+        delete _userManager;
 }
 

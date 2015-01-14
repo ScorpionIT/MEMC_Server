@@ -1,32 +1,33 @@
 #include "dlnaservice.h"
+#include "dlnaprocess.h"
 #include <QStringList>
 #include <string>
 
 using namespace services;
 using namespace dlna;
 
-DLNAService::DLNAService()
+DLNAService::DLNAService() : QThread()
 {
-    processes = new QVector<DLNAProcess*>();
+    connections = new QVector<DLNAProcess*>();
     this->serverSocket = new QTcpServer();
 }
 
-void DLNAService::start()
+void DLNAService::run()
 {
-    this->serverSocket->listen( QHostAddress::Any, 80001 );
+    this->serverSocket = new QTcpServer();
+    bool error = this->serverSocket->listen( QHostAddress::Any, 80007 );
+    if( !error )
+    {
+        qDebug() << "errore listen";
+    }
 
     while( true )
     {
         this->serverSocket->waitForNewConnection( -1, 0 );
 
-        QTcpSocket* client = this->serverSocket->nextPendingConnection();
-        QString message = client->readLine();
-
-        QStringList files = message.split( " " );
-
-        //this->processes->push_back( new DLNAProcess( files,   ) );
-        this->processes->back()->start();
-
+        this->connections->push_back( new DLNAProcess( this->serverSocket->nextPendingConnection() ) );
+        //connect( this->connections.back(), &Connection::closed, this, &ConnectionManager::killThreadConnetion );
+        this->connections->back()->start();
     }
 
 

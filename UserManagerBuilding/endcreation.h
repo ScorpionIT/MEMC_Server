@@ -13,7 +13,7 @@ namespace UserManagerBuilding
     public:
         EndCreation( UserBuildingProtocol* next, UserBuilder* builder );
         virtual bool handle( QString line );
-        ~EndCreation();
+        virtual ~EndCreation();
     };
 }
 #endif // ENDCREATION_H

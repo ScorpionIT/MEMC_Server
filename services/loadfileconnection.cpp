@@ -4,6 +4,7 @@
 #include <QTextStream>
 
 using namespace services;
+using namespace user;
 
 LoadFileConnection::LoadFileConnection( QTcpSocket* client )
 {
@@ -117,6 +118,9 @@ void LoadFileConnection::run()
         }
 
         file->close();
+
+
+        user->addFile();
 
         this->client->write( "ok\n" );
         this->client->waitForBytesWritten( -1 );

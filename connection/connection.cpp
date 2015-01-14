@@ -5,6 +5,7 @@
 #include <QTime>
 
 using namespace connection;
+using namespace user;
 
 const unsigned long Connection::SESSION_TIMER = 10000;
 
@@ -31,6 +32,7 @@ void Connection::closeConnection()
     this->client->waitForBytesWritten( -1 );
     this->client->close();
     delete this->client;
+    UserManager::leaveLock();
 
     this->terminate();
     emit closed();
@@ -40,6 +42,8 @@ void Connection::closeConnection()
 void Connection::run()
 {
     bool loginCompleted = false;
+
+    UserManager::takeLock();
 
     QString answer;
     do
@@ -88,7 +92,7 @@ void Connection::run()
 
     this->client->write( QString( "s.id=" + QString::number( currentUser->sessionID ) + "\n" ).toUtf8() );
 
-    QString message("FileTransfer=80001 ");
+    QString message( "FileTransfer=80001 ");
     message += "DLNA=80002 ";
     message += "STREAMING=80003\n";
     this->client->write( message.toUtf8() );
@@ -119,6 +123,7 @@ void Connection::run()
         {
             this->closeConnection();
         }
+        UserManager::leaveLock();
 
         sleep ( SESSION_TIMER );
     }

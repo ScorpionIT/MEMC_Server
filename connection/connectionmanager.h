@@ -2,7 +2,7 @@
 #define CONNECTIONMANAGER_H
 
 #include "connection.h"
-#include "user.h"
+#include "../user.h"
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QList>

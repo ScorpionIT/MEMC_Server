@@ -13,7 +13,7 @@ namespace UserManagerBuilding
     public:
         AddFile( UserBuildingProtocol* next, UserBuilder* builder );
         virtual bool handle( QString line );
-        ~AddFile();
+        virtual ~AddFile();
     };
 }
 #endif // ADDFILE_H

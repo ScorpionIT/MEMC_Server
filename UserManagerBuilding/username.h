@@ -13,7 +13,7 @@ namespace UserManagerBuilding
     public:
         UserName( UserBuildingProtocol* next, UserBuilder* builder );
         virtual bool handle( QString line );
-        ~UserName();
+        virtual ~UserName();
     };
 }
 #endif // USERNAME_H

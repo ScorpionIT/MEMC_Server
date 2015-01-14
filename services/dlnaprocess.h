@@ -5,23 +5,23 @@
 #include <QVector>
 #include <QString>
 #include <QStringList>
-#include "usermanager.h"
+#include <QTcpSocket>
 
 namespace services
 {
-    class DLNAProcess : public QThread
+    namespace dlna
     {
-    private:
-        QStringList files;
-        QString user;
+        class DLNAProcess : public QThread
+        {
+        private:
+            QTcpSocket* client;
+            void run();
 
-    protected:
-        void run();
-
-    public:
-        DLNAProcess( QStringList files, QString user );
-        ~DLNAProcess();
-    };
+        public:
+            DLNAProcess( QTcpSocket* client );
+            ~DLNAProcess();
+        };
+    }
 }
 
 #endif // DLNAPROCESS_H

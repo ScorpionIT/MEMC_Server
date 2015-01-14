@@ -1,26 +1,25 @@
 #ifndef DLNASERVICE_H
 #define DLNASERVICE_H
 
-#include "userservice.h"
 #include "dlnaprocess.h"
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QVector>
+#include <QThread>
 
 namespace services
 {
     namespace dlna
     {
-        class DLNAService : public UserService
+        class DLNAService : public QThread
         {
         private:
             QTcpServer* serverSocket;
-            bool run = false;
-            QVector<DLNAProcess*>* processes;
+            QVector<DLNAProcess*>* connections;
+            void run();
 
         public:
             DLNAService();
-            void start();
             ~DLNAService();
         };
     }

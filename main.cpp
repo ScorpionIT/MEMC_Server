@@ -1,5 +1,3 @@
-#include "./connection/connectionmanager.h"
-#include "usermanager.h"
 #include <QCoreApplication>
 #include <QFile>
 #include <QDebug>

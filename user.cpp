@@ -1,21 +1,17 @@
 #include "user.h"
 
+//using namespace services;
+//using namespace dlna;
+using namespace user;
+
 User::User()
 {
-    musicFiles = new QList<MediaFile*>();
-    videoFiles = new QList<MediaFile*>();
-    imageFiles = new QList<MediaFile*>();
+    musicFiles = new QMap<QString, MediaFile*>();
+    videoFiles = new QMap<QString, MediaFile*>();
+    imageFiles = new QMap<QString, MediaFile*>();
+
+    dlnaSharing = new QMap<QString, services::dlna::DLNAProcess*>();
 }
-
-User::User( QString id, unsigned long memorySpace, QString userDirectory, QString passwd )
-{
-    this->userName = id;
-    this->totalMemorySpace = memorySpace;
-    this->userDirectory = userDirectory;
-    this->passwd = passwd;
-
-}
-
 
 QString User::getUserName() const
 {
@@ -59,13 +55,13 @@ void User::addFile( MediaFile* file )
     switch( type )
     {
     case MUSIC:
-        musicFiles->push_back( file );
+        musicFiles->insert( file->getName(), file );
         break;
     case VIDEO:
-        videoFiles->push_back( file );
+        videoFiles->insert( file->getName(), file );
         break;
     case IMAGE:
-        imageFiles->push_back( file );
+        imageFiles->insert( file->getName(), file );
         break;
 
     }
@@ -77,7 +73,7 @@ bool User::getOnLine() const
 }
 
 
-QList<MediaFile*>* User::getMediaFiles( FileType type ) const
+QMap<QString, MediaFile*>* User::getMediaFiles( FileType type ) const
 {
     switch( type )
     {
@@ -93,6 +89,20 @@ QList<MediaFile*>* User::getMediaFiles( FileType type ) const
     default:
         return nullptr;
     }
+}
+
+void User::addDLNASharing( QString pid, services::dlna::DLNAProcess* sharing )
+{
+    dlnaSharing->insert( pid, sharing );
+}
+
+bool User::removeDLNASharing( QString pid )
+{
+    if( !dlnaSharing->contains( pid ) )
+        return false;
+
+    dlnaSharing->remove( pid );
+    return true;
 }
 
 void User::connect( int sessionID )
