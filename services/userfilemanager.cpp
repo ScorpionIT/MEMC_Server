@@ -3,7 +3,7 @@
 
 UserFileManager::UserFileManager()
 {
-
+    connections = new QList<UserFileManagerConnection*>();
 }
 
 void UserFileManager::run()
