@@ -126,40 +126,38 @@ void LoadFileConnection::run()
                     this->closeConnection();
                 }
             }
+            file->close();
             if (QString( buffer ) == "STOP\n")
                 file->remove();
+            else
+            {
+                MediaFile* mediaFile = new MediaFile();
 
-            file->close();
+                mediaFile->setOwner( user->getUserName() );
+                mediaFile->setSize( file->size() );
+                mediaFile->setName( fileName );
+                mediaFile->setPath( directory );
+                mediaFile->setType( choice == 1 ? FileType::MUSIC : choice == 2 ? FileType::VIDEO : FileType::IMAGE );
+                mediaFile->set_Public( false );
 
+                user->addFile( mediaFile );
+
+
+                QFile* indexFile = new QFile( directory + "index.txt" );
+
+                indexFile->open( QIODevice::WriteOnly | QIODevice::Append );
+                QTextStream out( indexFile );
+
+                out << "\n" + fileName + "$private";
+
+                indexFile->close();
+
+                delete indexFile;
+            }
+            delete file;
 
             this->client->write( "ok\n" );
             this->client->waitForBytesWritten( -1 );
-            file->close();
-
-            MediaFile* mediaFile = new MediaFile();
-
-            mediaFile->setOwner( user->getUserName() );
-            mediaFile->setSize( file->size() );
-            mediaFile->setName( fileName );
-            mediaFile->setPath( directory );
-            mediaFile->setType( choice == 1 ? FileType::MUSIC : choice == 2 ? FileType::VIDEO : FileType::IMAGE );
-            mediaFile->set_Public( false );
-
-            user->addFile( mediaFile );
-
-            delete file;
-
-            file = new QFile( directory + "index.txt" );
-
-            file->open( QIODevice::WriteOnly | QIODevice::Append );
-            QTextStream out( file );
-
-            out << "\n" + fileName + "$private";
-
-            file->close();
-
-            delete file;
-
         }
     }
 }
