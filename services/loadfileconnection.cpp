@@ -143,7 +143,7 @@ void LoadFileConnection::run()
                 user->addFile( mediaFile );
 
 
-                QFile indexFile = new QFile( directory + "index.txt" );
+                QFile* indexFile = new QFile( directory + "index.txt" );
 
                 indexFile->open( QIODevice::WriteOnly | QIODevice::Append );
                 QTextStream out( indexFile );
