@@ -3,9 +3,12 @@
 
 #include <QThread>
 #include <QTcpSocket>
-
+#include <QStringList>
+#include <QFile>
+#include <QProcess>
 
 #include "../usermanager.h"
+
 using namespace users;
 
 class UserFileManagerConnection: public QThread

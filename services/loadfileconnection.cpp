@@ -136,7 +136,7 @@ void LoadFileConnection::run()
                 mediaFile->setOwner( user->getUserName() );
                 mediaFile->setSize( file->size() );
                 mediaFile->setName( fileName );
-                mediaFile->setPath( directory );
+                mediaFile->setPath( directory+fileName );
                 mediaFile->setType( choice == 1 ? FileType::MUSIC : choice == 2 ? FileType::VIDEO : FileType::IMAGE );
                 mediaFile->set_Public( false );
 

@@ -1,7 +1,4 @@
 #include "userfilemanagerconnection.h"
-#include <QStringList>
-#include <QFile>
-#include <QProcess>
 
 UserFileManagerConnection::UserFileManagerConnection( QTcpSocket* client )
 {
@@ -83,7 +80,7 @@ void UserFileManagerConnection::handleDeletingFiles()
 
     this->client->waitForReadyRead( -1 );
     QString element = this->client->readLine();
-    element.chop( 2 );
+    element.chop( 1 );
 
     QStringList files;
 
@@ -93,7 +90,7 @@ void UserFileManagerConnection::handleDeletingFiles()
 
         this->client->waitForReadyRead( -1 );
         element = this->client->readLine();
-        element.chop( 2 );
+        element.chop( 1 );
     }
 
     this->client->write( "I'm working....\n" );
@@ -101,14 +98,139 @@ void UserFileManagerConnection::handleDeletingFiles()
 
     for( int i = 0; i < files.size(); i++ )
     {
-        MediaFile* mediaFile = user->takeFile( files[i] );
+        MediaFile* mediaFile = nullptr; // HACK TO AVOID THE POSSIBILITY OF SEGMENTATION FAULT
+        mediaFile = user->takeFile( files[i] ); // UNSAFE
+        if ( mediaFile == nullptr ) // HACK TO AVOID THE POSSIBILITY OF SEGMENTATION FAULT
+        {
+            this->client->write( "Server error: no media file found\n" );
+            this->client->waitForBytesWritten();
+            return;
+        }
+
+        QString mediaPath = mediaFile->getPath();
+        QString scope = mediaFile->isPublic()? "public" : "private";
+        QString indexPath = mediaPath.section ("/", 0, -2);
+
+        QFile indexFile ( indexPath + QString( "/index.txt" ) );
+        if ( indexFile.open( QIODevice::ReadOnly  | QIODevice::Text ) )
+        {
+            QStringList newIndex;
+            bool error = true;
+            while (!indexFile.atEnd())
+            {
+                    QString line = indexFile.readLine();
+                    line.remove("\n");
+                    qDebug() << line + " != " + mediaFile->getName() +  "$" + scope;
+                    if (line != mediaFile->getName() +  "$" + scope)
+                        newIndex.append( line );
+                    else
+                        error = false;
+            }
+            indexFile.close();
+            if ( error )
+            {
+                this->client->write( "Server error: Unable to find media in the index\n" );
+                this->client->waitForBytesWritten();
+                user->addFile( mediaFile );
+                return;
+            }
+            if ( indexFile.open( QIODevice::WriteOnly  | QIODevice::Text ) )
+            {
+                for ( int i = 0; i < newIndex.size(); i++ )
+                {
+                    indexFile.write( newIndex.at( i ).toUtf8() );
+                    if ( i+1 < newIndex.size() )
+                        indexFile.write( "\n" );
+                }
+                indexFile.close();
+            }
+            else
+            {
+                this->client->write( "Server error: Unable to update the index (write error)\n" );
+                this->client->waitForBytesWritten();
+                user->addFile( mediaFile );
+                return;
+            }
+        }
+        else
+        {
+            this->client->write( "Server error: Unable to update the index (read error)\n" );
+            this->client->waitForBytesWritten();
+            user->addFile( mediaFile );
+            return;
+        }
+
+        QFile toRemove (mediaPath);
+        if ( !toRemove.remove() )
+        {
+            if ( indexFile.open( QIODevice::Append  | QIODevice::Text ) )
+            {
+                indexFile.write( QString ( mediaFile->getName() +  "$" + scope ).toUtf8() );
+                indexFile.close();
+            }
+            else
+            {
+                this->client->write( "Server error: Unable to remove media (index not restored)\n" );
+                this->client->waitForBytesWritten();
+                user->addFile( mediaFile );
+                return;
+            }
+
+            this->client->write( "Server error: Unable to remove media (index restored)\n" );
+            this->client->waitForBytesWritten();
+            user->addFile( mediaFile );
+            return;
+        }
+
+        user->setMemoryUsed( user->getMemoryUsed() - mediaFile->getSize() );
+    }
+
+    this->client->write( "Done\n" );
+    this->client->waitForBytesWritten();
+}
+
+/*void UserFileManagerConnection::handleDeletingFiles()
+{
+    this->client->write( "files[END to stop]\n" );
+    this->client->waitForBytesWritten();
+
+    this->client->waitForReadyRead( -1 );
+    QString element = this->client->readLine();
+    element.chop( 1 );
+
+    QStringList files;
+
+    while( element != "END" )
+    {
+        files += element;
+
+        this->client->waitForReadyRead( -1 );
+        element = this->client->readLine();
+        element.chop( 1 );
+    }
+
+    this->client->write( "I'm working....\n" );
+    this->client->waitForBytesWritten();
+
+    for( int i = 0; i < files.size(); i++ )
+    {
+        MediaFile* mediaFile = nullptr; // HACK TO AVOID THE POSSIBILITY OF SEGMENTATION FAULT
+        mediaFile = user->takeFile( files[i] ); // UNSAFE
+        if ( mediaFile == nullptr ) // HACK TO AVOID THE POSSIBILITY OF SEGMENTATION FAULT
+        {
+            this->client->write( "error\n" );
+            this->client->waitForBytesWritten();
+            break;
+        }
 
         QString path = mediaFile->getPath();
         QString scope = mediaFile->isPublic()? "public" : "private";
 
+        qDebug() << path << scope;
+
         QProcess process;
         QStringList tmp;
-        tmp << path + mediaFile->getName();
+        tmp << path;
         process.execute( QString( "rm" ), tmp );
 
         QStringList pathList = path.split( "/" );
@@ -150,7 +272,7 @@ void UserFileManagerConnection::handleDeletingFiles()
 
     this->client->write( "Done\n" );
     this->client->waitForBytesWritten();
-}
+}*/
 
 void UserFileManagerConnection::handleChangingScope()
 {
@@ -159,7 +281,7 @@ void UserFileManagerConnection::handleChangingScope()
 
     this->client->waitForReadyRead( -1 );
     QString userChoice = this->client->readLine();
-    userChoice.chop( 2 );
+    userChoice.chop( 1 );
 
     int choice = userChoice.toInt();
 
@@ -169,7 +291,7 @@ void UserFileManagerConnection::handleChangingScope()
 
     this->client->waitForReadyRead( -1 );
     QString element = this->client->readLine();
-    element.chop( 2 );
+    element.chop( 1 );
 
     QStringList files;
 
@@ -179,7 +301,7 @@ void UserFileManagerConnection::handleChangingScope()
 
         this->client->waitForReadyRead( -1 );
         element = this->client->readLine();
-        element.chop( 2 );
+        element.chop( 1 );
     }
 
     this->client->write( "I'm working....\n" );
@@ -203,7 +325,7 @@ void UserFileManagerConnection::handleChangingScope()
         path += "Images/index.txt";
         break;
     default:
-        this->client->write( "error, bye\n" );
+        this->client->write( "error\n" );
         this->client->waitForBytesWritten( -1 );
         this->client->close();
         return;
