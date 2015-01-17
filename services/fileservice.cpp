@@ -30,7 +30,7 @@ void FileService::run()
 
         this->client->write( "who?\n" );
         bool hasAnswered = true;
-        if (!this->client->bytesAvailable())
+        if (this->client->bytesAvailable() == 0)
             hasAnswered = this->client->waitForReadyRead();
 
         if( !hasAnswered )
@@ -60,7 +60,7 @@ void FileService::run()
             this->client->write( "? [MUSIC=1, VIDEOS=2, IMAGES=3]\n" );
             this->client->waitForBytesWritten( -1 );
 
-            if (!this->client->bytesAvailable())
+            if (this->client->bytesAvailable() == 0)
                 this->client->waitForReadyRead();
             int choice = QString( this->client->readLine() ).toInt();
 

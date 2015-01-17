@@ -18,7 +18,7 @@ void UserFileManagerConnection::run()
     this->client->write( "who?\n" );
 
     bool hasAnswered = true;
-    if (!this->client->bytesAvailable())
+    if (this->client->bytesAvailable() == 0)
         hasAnswered = this->client->waitForReadyRead();
 
     if( !hasAnswered )
@@ -54,7 +54,7 @@ void UserFileManagerConnection::run()
             this->client->write( "what do I have to do?[DELETE_FILE=1, LOCK_FILE=2, UNLOCK_FILE=3, FINISH=4]\n" );
             this->client->waitForBytesWritten( -1 );
 
-            if (!this->client->bytesAvailable())
+            if (this->client->bytesAvailable() == 0)
                 this->client->waitForReadyRead();
             QString answer = this->client->readLine();
 
@@ -96,7 +96,7 @@ void UserFileManagerConnection::handleDeletingFiles()
     this->client->write( "files[END to stop]\n" );
     this->client->waitForBytesWritten();
 
-    if (!this->client->bytesAvailable())
+    if (this->client->bytesAvailable() == 0)
         this->client->waitForReadyRead();
     QString element = this->client->readLine();
     element.chop( 1 );
@@ -107,7 +107,7 @@ void UserFileManagerConnection::handleDeletingFiles()
     {
         files += element;
 
-        if (!this->client->bytesAvailable())
+        if (this->client->bytesAvailable() == 0)
             this->client->waitForReadyRead();
         element = this->client->readLine();
         element.chop( 1 );
@@ -213,7 +213,7 @@ void UserFileManagerConnection::handleChangingScope()
     this->client->write( "[MUSIC=1, VIDEO=2, IMAGE=3]\n" );
     this->client->waitForBytesWritten();
 
-    if (!this->client->bytesAvailable())
+    if (this->client->bytesAvailable() == 0)
         this->client->waitForReadyRead();
     QString userChoice = this->client->readLine();
     userChoice.chop( 1 );
@@ -244,7 +244,7 @@ void UserFileManagerConnection::handleChangingScope()
     this->client->write( "files[END to stop]\n" );
     this->client->waitForBytesWritten();
 
-    if (!this->client->bytesAvailable())
+    if (this->client->bytesAvailable() == 0)
         this->client->waitForReadyRead();
     QString element = this->client->readLine();
     element.chop( 1 );
@@ -253,7 +253,7 @@ void UserFileManagerConnection::handleChangingScope()
     {
         filesToChangeScope.push_back( element );
 
-        if (!this->client->bytesAvailable())
+        if (this->client->bytesAvailable() == 0)
             this->client->waitForReadyRead();
         element = this->client->readLine();
         element.chop( 1 );

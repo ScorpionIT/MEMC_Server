@@ -26,7 +26,7 @@ void LoadFileConnection::run()
     this->client->write( "who?\n" );
 
     bool hasAnswered = true;
-    if (!this->client->bytesAvailable())
+    if (this->client->bytesAvailable() == 0)
         hasAnswered = this->client->waitForReadyRead();
 
     if( !hasAnswered )
@@ -62,7 +62,7 @@ void LoadFileConnection::run()
             this->client->write( "what do you have for me?[MUSIC=1, VIDEO=2, IMAGES=3, FINISH=4]\n" );
             this->client->waitForBytesWritten( -1 );
 
-            if (!this->client->bytesAvailable())
+            if (this->client->bytesAvailable() == 0)
                 this->client->waitForReadyRead();
             QString answer = this->client->readLine();
 
@@ -96,7 +96,7 @@ void LoadFileConnection::run()
             this->client->write( "name?\n" );
             this->client->waitForBytesWritten( -1 );
 
-            if (!this->client->bytesAvailable())
+            if (this->client->bytesAvailable() == 0)
                 this->client->waitForReadyRead();
             QString fileName = this->client->readLine();
             fileName.chop( 1 );
@@ -106,7 +106,7 @@ void LoadFileConnection::run()
             this->client->write( "buffer length?\n" );
             this->client->waitForBytesWritten( -1 );
 
-            if (!this->client->bytesAvailable())
+            if (this->client->bytesAvailable() == 0)
                 this->client->waitForReadyRead();
             int bufferLength = QString( this->client->readLine() ).toInt();
 
@@ -115,7 +115,7 @@ void LoadFileConnection::run()
             int filePieces = 1;
 
             bool isTrasmitting = true;
-            if (!this->client->bytesAvailable())
+            if (this->client->bytesAvailable() == 0)
                 isTrasmitting = this->client->waitForReadyRead();
             QByteArray buffer = this->client->read( bufferLength );
 
@@ -128,7 +128,7 @@ void LoadFileConnection::run()
                 filePieces++;
 
                 isTrasmitting = true;
-                if (!this->client->bytesAvailable())
+                if (this->client->bytesAvailable() == 0)
                     isTrasmitting = this->client->waitForReadyRead();
                 buffer = this->client->read( bufferLength );
 
