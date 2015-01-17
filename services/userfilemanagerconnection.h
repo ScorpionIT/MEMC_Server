@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QProcess>
 
-#include "../usermanager.h"
+#include "usermanager.h"
 
 using namespace users;
 
@@ -15,12 +15,15 @@ class UserFileManagerConnection: public QThread
 {
 private:
     QTcpSocket* client;
-    void run();
-
     User* user;
+    QStringList filesToChangeScope;
+    QMap<QString, MediaFile*>* chageScopeMediaFileList;
+    bool toPublic;
 
+    void run();
     void handleDeletingFiles();
     void handleChangingScope();
+    void restoreScope(int n = -1);
 
 public:
     UserFileManagerConnection( QTcpSocket* client );

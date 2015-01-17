@@ -2,8 +2,6 @@
 #include <QStringList>
 using namespace UserManagerBuilding;
 
-#include <QDebug>
-
 UserBuilder::UserBuilder()
 {
 
@@ -34,8 +32,6 @@ void UserBuilder::addFile( QString file )
     QStringList tokens = file.split( "$" );
 
     QString path = entryPoint + currentUser->getUserName() + "/" + tokens[0];
-
-    qDebug() << "il path del file è "<< path;
 
     newFile->setPath( path );
 
