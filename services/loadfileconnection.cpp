@@ -20,8 +20,14 @@ void LoadFileConnection::closeConnection()
 
 void LoadFileConnection::run()
 {
+    if ( !this->client->isOpen() )
+        return;
+
     this->client->write( "who?\n" );
-    bool hasAnswered = this->client->waitForReadyRead();
+
+    bool hasAnswered = true;
+    if (!this->client->bytesAvailable())
+        hasAnswered = this->client->waitForReadyRead();
 
     if( !hasAnswered )
     {
@@ -50,15 +56,18 @@ void LoadFileConnection::run()
 
         while (true)
         {
+            if ( !this->client->isOpen() )
+                return;
+
             this->client->write( "what do you have for me?[MUSIC=1, VIDEO=2, IMAGES=3, FINISH=4]\n" );
             this->client->waitForBytesWritten( -1 );
 
-            this->client->waitForReadyRead();
+            if (!this->client->bytesAvailable())
+                this->client->waitForReadyRead();
             QString answer = this->client->readLine();
 
             if (answer == "4\n")
             {
-                qDebug() << "END FILE LIST";
                 this->client->close();
                 return;
             }
@@ -84,12 +93,11 @@ void LoadFileConnection::run()
                 return;
             }
 
-            qDebug() << directory;
-
             this->client->write( "name?\n" );
             this->client->waitForBytesWritten( -1 );
 
-            this->client->waitForReadyRead();
+            if (!this->client->bytesAvailable())
+                this->client->waitForReadyRead();
             QString fileName = this->client->readLine();
             fileName.chop( 1 );
 
@@ -98,14 +106,17 @@ void LoadFileConnection::run()
             this->client->write( "buffer length?\n" );
             this->client->waitForBytesWritten( -1 );
 
-            this->client->waitForReadyRead();
+            if (!this->client->bytesAvailable())
+                this->client->waitForReadyRead();
             int bufferLength = QString( this->client->readLine() ).toInt();
 
             file->open( QIODevice::WriteOnly );
 
             int filePieces = 1;
 
-            bool isTrasmitting = this->client->waitForReadyRead();
+            bool isTrasmitting = true;
+            if (!this->client->bytesAvailable())
+                isTrasmitting = this->client->waitForReadyRead();
             QByteArray buffer = this->client->read( bufferLength );
 
             while( QString( buffer ) != "END\n" && QString( buffer ) != "STOP\n" )
@@ -116,7 +127,9 @@ void LoadFileConnection::run()
 
                 filePieces++;
 
-                isTrasmitting = this->client->waitForReadyRead();
+                isTrasmitting = true;
+                if (!this->client->bytesAvailable())
+                    isTrasmitting = this->client->waitForReadyRead();
                 buffer = this->client->read( bufferLength );
 
                 if( !isTrasmitting )

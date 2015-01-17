@@ -2,11 +2,9 @@
 
 using namespace services;
 
-
 LoadFileService::LoadFileService()
 {
     connections = new QList<LoadFileConnection*>;
-
 }
 
 void LoadFileService::run()
@@ -21,8 +19,7 @@ void LoadFileService::run()
     {
         this->serverSocket->waitForNewConnection( -1, 0 );
 
-        this->connections->push_back( new LoadFileConnection( this->serverSocket->nextPendingConnection() ) );
-        //connect( this->connections.back(), &Connection::closed, this, &ConnectionManager::killThreadConnetion );
+        this->connections->push_back( new LoadFileConnection( this->serverSocket->nextPendingConnection() ) );       
         this->connections->back()->start();
     }
 }

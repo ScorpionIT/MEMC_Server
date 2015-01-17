@@ -51,7 +51,6 @@ void Connection::run()
         do
         {
             this->client->write( "who?\n");
-
             this->client->waitForReadyRead( SESSION_TIMER );
             user = this->client->readLine();
 
@@ -59,8 +58,6 @@ void Connection::run()
                 this->closeConnection();
 
             user.chop( 1 );
-            qDebug()<< user;
-
         }while( !UserManager::getInstance()->isAUser( user ) );
 
         this->client->write( "pls pw\n");

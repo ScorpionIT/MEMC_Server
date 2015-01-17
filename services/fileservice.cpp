@@ -29,7 +29,9 @@ void FileService::run()
         this->client = this->serverSocket->nextPendingConnection();
 
         this->client->write( "who?\n" );
-        bool hasAnswered = this->client->waitForReadyRead();
+        bool hasAnswered = true;
+        if (!this->client->bytesAvailable())
+            hasAnswered = this->client->waitForReadyRead();
 
         if( !hasAnswered )
         {
@@ -58,7 +60,8 @@ void FileService::run()
             this->client->write( "? [MUSIC=1, VIDEOS=2, IMAGES=3]\n" );
             this->client->waitForBytesWritten( -1 );
 
-            this->client->waitForReadyRead();
+            if (!this->client->bytesAvailable())
+                this->client->waitForReadyRead();
             int choice = QString( this->client->readLine() ).toInt();
 
             QMap<QString, MediaFile*>* files;
@@ -101,11 +104,7 @@ void FileService::run()
 
             this->client->close();
         }
-
-
     }
-
-
 }
 
 FileService::~FileService()
@@ -113,4 +112,3 @@ FileService::~FileService()
     delete serverSocket;
     delete client;
 }
-

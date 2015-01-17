@@ -37,5 +37,6 @@ ServerApplication::~ServerApplication()
     delete connectionManager;
     delete fileService;
     delete loadFileService;
+    delete userFileManager;
 }
 
