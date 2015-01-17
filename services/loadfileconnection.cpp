@@ -121,8 +121,8 @@ void LoadFileConnection::run()
 
                 if( !isTrasmitting )
                 {
+                    file->close();
                     file->remove();
-                    delete file;
                     this->closeConnection();
                 }
             }
