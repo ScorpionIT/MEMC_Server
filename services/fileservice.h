@@ -12,6 +12,7 @@ namespace services
     {
 
     private:
+        int counter;
         QTcpServer* serverSocket;
         QTcpSocket* client;
         void run();

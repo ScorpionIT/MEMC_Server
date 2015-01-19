@@ -17,7 +17,8 @@ void LoadFileService::run()
     }
     while( true )
     {
-        this->serverSocket->waitForNewConnection( -1, 0 );
+        if ( !this->serverSocket->hasPendingConnections() )
+                this->serverSocket->waitForNewConnection( -1, 0 );
 
         this->connections->push_back( new LoadFileConnection( this->serverSocket->nextPendingConnection() ) );       
         this->connections->back()->start();

@@ -12,7 +12,7 @@ static const int SESSION_TIMER = 500;
 
 FileService::FileService()
 {
-
+    this->counter = 0;
 }
 
 void FileService::run()
@@ -25,7 +25,8 @@ void FileService::run()
     }
     while( true )
     {
-        this->serverSocket->waitForNewConnection( -1, 0 );
+        if ( !this->serverSocket->hasPendingConnections() )
+            this->serverSocket->waitForNewConnection( -1, 0 );
         this->client = this->serverSocket->nextPendingConnection();
 
         this->client->write( "who?\n" );
@@ -35,6 +36,7 @@ void FileService::run()
 
         if( !hasAnswered )
         {
+            qDebug() << "connection lost";
             this->client->close();
             return;
         }
@@ -84,7 +86,6 @@ void FileService::run()
                 this->client->close();
                 continue;
             }
-
             if( files == nullptr || files->isEmpty() )
             {
                 this->client->write( "no files\n" );

@@ -17,7 +17,8 @@ void UserFileManager::run()
 
     while( true )
     {
-        this->serverSocket->waitForNewConnection( -1, 0 );
+        if ( !this->serverSocket->hasPendingConnections() )
+            this->serverSocket->waitForNewConnection( -1, 0 );
 
         this->connections->push_back( new UserFileManagerConnection( this->serverSocket->nextPendingConnection() ) );
         //connect( this->connections.back(), &Connection::closed, this, &ConnectionManager::killThreadConnetion );
