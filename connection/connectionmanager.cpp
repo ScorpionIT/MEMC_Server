@@ -17,7 +17,8 @@ void ConnectionManager::run()
     }
     while( true )
     {
-        this->serverSocket->waitForNewConnection( -1, 0 );
+        if ( !this->serverSocket->hasPendingConnections() )
+            this->serverSocket->waitForNewConnection( -1, 0 );
 
         this->clientConnections.push_back( new Connection( this->serverSocket->nextPendingConnection() ) );
         connect( this->clientConnections.back(), &Connection::closed, this, &ConnectionManager::killThreadConnetion );
