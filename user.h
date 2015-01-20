@@ -28,6 +28,10 @@ namespace users
         QMap<QString, MediaFile*>* videoFiles;
         QMap<QString, MediaFile*>* imageFiles;
 
+        QMap<QString, MediaFile*>* publicMusicFiles;
+        QMap<QString, MediaFile*>* publicVideoFiles;
+        QMap<QString, MediaFile*>* publicImageFiles;
+
         QMap<QString, services::dlna::DLNAProcess*>* dlnaSharing; //= new QMap<QString, DLNAProcess*>();
 
         void connect( int sessionID );
@@ -61,6 +65,7 @@ namespace users
          bool getOnLine() const;
 
          QMap<QString, MediaFile*>* getMediaFiles( FileType type ) const;
+         QMap<QString, MediaFile*>* getPublicFiles( FileType type ) const;
 
          MediaFile* takeFile( QString name );
 

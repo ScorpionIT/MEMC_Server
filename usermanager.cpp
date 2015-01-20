@@ -7,6 +7,9 @@ using namespace users;
 UserManager* UserManager::_userManager = nullptr;
 QMap<QString, User*>* UserManager::users = new QMap<QString, User*>();
 QReadWriteLock* UserManager::lock = new QReadWriteLock();
+QMap<QString, MediaFile*>* UserManager::publicMediaFiles_m = new QMap<QString, MediaFile*>;
+QMap<QString, MediaFile*>* UserManager::publicMediaFiles_v = new QMap<QString, MediaFile*>;
+QMap<QString, MediaFile*>* UserManager::publicMediaFiles_i = new QMap<QString, MediaFile*>;
 
 UserManager::UserManager()
 {
@@ -36,11 +39,15 @@ UserManager* UserManager::getInstance()
     return _userManager;
 }
 
-void UserManager::initiate(QMap<QString, User*> fields )
+void UserManager::initiate( QMap<QString, User*> fields )
 {
     for( QMap<QString, User*>::iterator it = fields.begin(); it != fields.end(); it++ )
     {
         users->insert( it.key(), it.value() );
+
+        publicMediaFiles_m->unite( ( *(it.value()->getPublicFiles( FileType::MUSIC ) ) ) );
+        publicMediaFiles_v->unite( ( *(it.value()->getPublicFiles( FileType::VIDEO ) ) ) );
+        publicMediaFiles_i->unite( ( *(it.value()->getPublicFiles( FileType::IMAGE ) ) ) );
     }
 }
 
@@ -66,6 +73,43 @@ bool UserManager::isAUser( QString user ) const
     return (*users).contains( user );
 }
 
+QList<MediaFile*>* UserManager::getPublicMediaFiles(QString userToKeepOut , FileType type) const
+{
+    QList<MediaFile*>* mediaList = new QList<MediaFile*>();
+
+    for( QMap<QString, User*>::iterator it = users->begin(); it != users->end(); it++ )
+    {
+        if( it.key() != userToKeepOut )
+        {
+            QMap<QString, MediaFile*>* files;
+            QMap<QString, MediaFile*>::iterator it2;
+
+            switch( type )
+            {
+            case MUSIC:
+                files = it.value()->getPublicFiles( FileType::MUSIC );
+                it2 = files->begin();
+                break;
+            case VIDEO:
+                files = it.value()->getPublicFiles( FileType::VIDEO );
+                it2 = files->begin();
+                break;
+            case IMAGE:
+                files = it.value()->getPublicFiles( FileType::IMAGE );
+                it2 = files->begin();
+                break;
+            default:
+                break;
+            }
+            if( !files->empty() )
+                for( ; it2 != files->end(); it2++ )
+                    mediaList->push_back( ( *it2 ) );
+        }
+    }
+
+    return mediaList;
+}
+
 int UserManager::getNumOfUsers() const
 {
     return this->users->size();
@@ -75,11 +119,15 @@ UserManager::~UserManager()
 {
     if( users != nullptr )
         delete users;
-
     if( lock != nullptr )
         delete lock;
-
     if( _userManager != nullptr )
         delete _userManager;
+    if( publicMediaFiles_m != nullptr )
+        delete publicMediaFiles_m;
+    if( publicMediaFiles_v != nullptr )
+        delete publicMediaFiles_v;
+    if( publicMediaFiles_i != nullptr )
+        delete publicMediaFiles_i;
 }
 

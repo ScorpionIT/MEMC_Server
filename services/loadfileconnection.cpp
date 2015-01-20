@@ -165,7 +165,7 @@ void LoadFileConnection::run()
 
                     QFile* indexFile = new QFile( directory + "index.txt" );
 
-                    indexFile->open( QIODevice::WriteOnly | QIODevice::Append );
+                    indexFile->open( QIODevice::ReadWrite | QIODevice::Append );
                     QTextStream out( indexFile );
 
                     if( !out.atEnd() )

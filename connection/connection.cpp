@@ -88,6 +88,8 @@ void Connection::run()
     currentUser->connect( computeSessionID() );
 
     this->client->write( QString( "s.id=" + QString::number( currentUser->sessionID ) + "\n" ).toUtf8() );
+    this->client->write( QString( "totmemory=" + QString::number( currentUser->getTotalMemorySpace() ) + " "
+                                  + "usedmemory=" + QString::number( currentUser->getMemoryUsed() ) + "\n" ).toUtf8() );
 
     QString message( "FileTransfer=80001 ");
     message += "DLNA=80002 ";

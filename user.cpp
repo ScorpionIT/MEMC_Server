@@ -10,6 +10,10 @@ User::User()
     videoFiles = new QMap<QString, MediaFile*>();
     imageFiles = new QMap<QString, MediaFile*>();
 
+    publicMusicFiles = new QMap<QString, MediaFile*>();
+    publicVideoFiles = new QMap<QString, MediaFile*>();
+    publicImageFiles = new QMap<QString, MediaFile*>();
+
     dlnaSharing = new QMap<QString, services::dlna::DLNAProcess*>();
 }
 
@@ -55,15 +59,32 @@ void User::addFile( MediaFile* file )
     switch( type )
     {
     case MUSIC:
-        musicFiles->insert( file->getName(), file );
+        if( !file->isPublic() )
+            musicFiles->insert( file->getName(), file );
+        else
+        {
+            musicFiles->insert( file->getName(), file );
+            publicMusicFiles->insert( file->getName(), file );
+        }
         break;
     case VIDEO:
-        videoFiles->insert( file->getName(), file );
+        if( !file->isPublic() )
+            videoFiles->insert( file->getName(), file );
+        else
+        {
+            videoFiles->insert( file->getName(), file );
+            publicVideoFiles->insert( file->getName(), file );
+        }
         break;
     case IMAGE:
-        imageFiles->insert( file->getName(), file );
+        if( !file->isPublic() )
+            imageFiles->insert( file->getName(), file );
+        else
+        {
+            imageFiles->insert( file->getName(), file );
+            publicImageFiles->insert( file->getName(), file );
+        }
         break;
-
     }
 }
 
@@ -91,6 +112,24 @@ QMap<QString, MediaFile*>* User::getMediaFiles( FileType type ) const
     }
 }
 
+QMap<QString, MediaFile*>*User::getPublicFiles( FileType type ) const
+{
+    switch( type )
+    {
+    case MUSIC:
+        return publicMusicFiles;
+
+    case VIDEO:
+        return publicVideoFiles;
+
+    case IMAGE:
+        return publicImageFiles;
+
+    default:
+        return nullptr;
+    }
+}
+
 MediaFile* User::takeFile( QString name )
 {
     if( musicFiles->contains( name ) )
@@ -99,6 +138,8 @@ MediaFile* User::takeFile( QString name )
         return videoFiles->take( name );
     else if( imageFiles->contains( name ) )
         return imageFiles->take( name );
+    else
+        return nullptr;
 }
 
 void User::addDLNASharing( QString pid, services::dlna::DLNAProcess* sharing )

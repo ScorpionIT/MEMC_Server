@@ -13,6 +13,9 @@ namespace users
     {
     private:
         static QMap<QString, User*>* users;
+        static QMap<QString, MediaFile*>* publicMediaFiles_m;
+        static QMap<QString, MediaFile*>* publicMediaFiles_v;
+        static QMap<QString, MediaFile*>* publicMediaFiles_i;
         static UserManager* _userManager;
 
         static QReadWriteLock* lock;
@@ -31,6 +34,7 @@ namespace users
 
         User* getUser( QString users );
         bool isAUser( QString users ) const;
+        QList<MediaFile*>* getPublicMediaFiles( QString userToKeepOut, FileType type ) const;
         int getNumOfUsers() const;
         ~UserManager();
     };

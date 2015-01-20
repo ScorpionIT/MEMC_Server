@@ -65,17 +65,21 @@ void FileService::run()
             int choice = QString( this->client->readLine() ).toInt();
 
             QMap<QString, MediaFile*>* files;
+            QList<MediaFile*>* publicFiles;
 
             switch( choice )
             {
             case 1:
                 files = userManager->getUser( userName_ID[0] )->getMediaFiles( FileType::MUSIC );
+                publicFiles = userManager->getPublicMediaFiles( user, MUSIC );
                 break;
             case 2:
                 files = userManager->getUser( userName_ID[0] )->getMediaFiles( FileType::VIDEO );
+                publicFiles = userManager->getPublicMediaFiles( user, VIDEO );
                 break;
             case 3:
                 files = userManager->getUser( userName_ID[0] )->getMediaFiles( FileType::IMAGE );
+                publicFiles = userManager->getPublicMediaFiles( user, IMAGE );
                 break;
 
             default:
@@ -93,9 +97,20 @@ void FileService::run()
             }
             else
             {
+                this->client->write( "yours:\n" );
+                this->client->waitForBytesWritten( -1 );
                 for( QMap<QString, MediaFile*>::iterator it = files->begin(); it != files->end(); it++ )
                 {
                     this->client->write( ( (*it)->getName().toUtf8() + QString( (*it)->isPublic() ? "$public" : "$private" ) + QString( "\n" ) ).toStdString().c_str() );
+                    this->client->waitForBytesWritten( -1 );
+                }
+                this->client->write( "end\n" );
+                this->client->write( "not yours(public):\n" );
+                this->client->waitForBytesWritten( -1 );
+
+                for( QList<MediaFile*>::iterator it = publicFiles->begin(); it != publicFiles->end(); it++ )
+                {
+                    this->client->write( ( (*it)->getName().toUtf8() + QString( "$public" ) + QString( "\n" ) ).toStdString().c_str() );
                     this->client->waitForBytesWritten( -1 );
                 }
                 this->client->write( "end\n" );
