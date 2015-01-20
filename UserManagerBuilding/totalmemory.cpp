@@ -1,4 +1,5 @@
 #include "totalmemory.h"
+#include <QDebug>
 using namespace UserManagerBuilding;
 
 
@@ -15,7 +16,8 @@ bool TotalMemory::handle(QString line)
     if( tokens[0] != line )
     {
 
-        builder->createUser( tokens[1] );
+        builder->setTotalMemory( tokens[1] );
+        qDebug() << "la memoria totale è " << tokens[1];
         return true;
     }
     else if( next != nullptr )

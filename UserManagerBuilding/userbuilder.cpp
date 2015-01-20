@@ -18,6 +18,7 @@ void UserBuilder::createUser( QString username )
 
     currentUser->setUserName( username );
     currentUser->setUserDirectory( entryPoint + username + "/");
+    currentUser->setMemoryUsed( 0 );
 }
 
 void UserBuilder::createPasswd( QString passwd )
@@ -34,6 +35,7 @@ void UserBuilder::addFile( QString file )
     QString path = entryPoint + currentUser->getUserName() + "/" + tokens[0];
 
     newFile->setPath( path );
+    newFile->setSize( tokens[2].toLong() );
 
     if( tokens[1] == "public" )
         newFile->set_Public( true );
@@ -52,16 +54,16 @@ void UserBuilder::addFile( QString file )
         newFile->setType( FileType::IMAGE );
 
 
-   // if( file.size() + currentUser->getMemoryUsed() < currentUser->getTotalMemorySpace() )
+    if( newFile->getSize() + currentUser->getMemoryUsed() < currentUser->getTotalMemorySpace() )
+    {
+        currentUser->setMemoryUsed( currentUser->getMemoryUsed() + newFile->getSize() );
         currentUser->addFile( newFile );
-
-
-
+    }
 }
 
 void UserBuilder::setTotalMemory( QString totalMemory )
 {
-    currentUser->setTotalMemorySpace( totalMemory.toInt() );
+    currentUser->setTotalMemorySpace( totalMemory.toLongLong() );
 }
 
 void UserBuilder::putUser()
