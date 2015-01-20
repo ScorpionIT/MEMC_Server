@@ -28,22 +28,22 @@ void User::setPasswd( QString passwd )
     this->passwd = passwd;
 }
 
-unsigned long User::getTotalMemorySpace() const
+qint64 User::getTotalMemorySpace() const
 {
     return totalMemorySpace;
 }
 
-void User::setTotalMemorySpace( unsigned long value )
+void User::setTotalMemorySpace( qint64 value )
 {
     totalMemorySpace = value;
 }
 
-unsigned long User::getMemoryUsed() const
+qint64 User::getMemoryUsed() const
 {
     return memoryUsed;
 }
 
-void User::setMemoryUsed( unsigned long value )
+void User::setMemoryUsed(qint64 value )
 {
     memoryUsed = value;
 }

@@ -139,9 +139,11 @@ void LoadFileConnection::run()
                     this->closeConnection();
                 }
             }
-            file->close();
             if (QString( buffer ) == "STOP\n")
+            {
+                file->close();
                 file->remove();
+            }
             else
             {
                 MediaFile* mediaFile = new MediaFile();
@@ -153,20 +155,31 @@ void LoadFileConnection::run()
                 mediaFile->setType( choice == 1 ? FileType::MUSIC : choice == 2 ? FileType::VIDEO : FileType::IMAGE );
                 mediaFile->set_Public( false );
 
-                user->addFile( mediaFile );
+                qDebug() << "file->size() + user->getMemoryUsed() <= user->getTotalMemorySpace() = "
+                         << QString::number( file->size() +  user->getMemoryUsed() ) << "<=" << QString::number( user->getTotalMemorySpace() );
+
+                if( file->size() + user->getMemoryUsed() <= user->getTotalMemorySpace() )
+                {
+                   user->setMemoryUsed( user->getMemoryUsed() + file->size() );
+                    user->addFile( mediaFile );
+
+                    QFile* indexFile = new QFile( directory + "index.txt" );
+
+                    indexFile->open( QIODevice::WriteOnly | QIODevice::Append );
+                    QTextStream out( indexFile );
+
+                    if( !out.atEnd() )
+                        out << "\n" + fileName + "$private" + "$" + QString::number( file->size() );
+                    else
+                        out << fileName + "$private" + "$" + QString::number( file->size() );
 
 
-                QFile* indexFile = new QFile( directory + "index.txt" );
+                    indexFile->close();
 
-                indexFile->open( QIODevice::WriteOnly | QIODevice::Append );
-                QTextStream out( indexFile );
-
-                out << "\n" + fileName + "$private";
-
-                indexFile->close();
-
-                delete indexFile;
+                    delete indexFile;
+                }
             }
+            file->close();
             delete file;
 
             this->client->write( "ok\n" );

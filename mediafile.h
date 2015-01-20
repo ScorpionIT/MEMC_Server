@@ -12,7 +12,7 @@ private:
     QString owner;
     QString path;
     FileType type;
-    unsigned long size;
+    qint64 size;
     bool _public;
 
 public:
@@ -30,8 +30,8 @@ public:
     FileType getType() const;
     void setType( const FileType& type );
 
-    unsigned long getSize() const;
-    void setSize( unsigned long size );
+    qint64 getSize() const;
+    void setSize( qint64 size );
 
     bool isPublic() const;
     void set_Public( bool _public );

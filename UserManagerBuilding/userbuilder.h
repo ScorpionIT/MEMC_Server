@@ -14,7 +14,8 @@ namespace UserManagerBuilding
         QString entryPoint;
         User* currentUser;
         QMap<QString, User*> result;
-        unsigned long memory = 0;
+        unsigned long usedMemory = 0;
+
 
 
     public:

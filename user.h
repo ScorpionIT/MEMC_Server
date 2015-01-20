@@ -17,8 +17,8 @@ namespace users
     {
     private:
         QString userName;
-        unsigned long totalMemorySpace;
-        unsigned long memoryUsed;
+        qint64 totalMemorySpace;
+        qint64 memoryUsed;
         QString userDirectory;
         QString passwd;
         bool onLine;
@@ -50,11 +50,11 @@ namespace users
 
          void setPasswd( QString passwd );
 
-         unsigned long getTotalMemorySpace() const;
-         void setTotalMemorySpace( unsigned long value );
+         qint64 getTotalMemorySpace() const;
+         void setTotalMemorySpace( qint64 value );
 
-         unsigned long getMemoryUsed() const;
-         void setMemoryUsed( unsigned long value );
+         qint64 getMemoryUsed() const;
+         void setMemoryUsed( qint64 value );
 
          void addFile( MediaFile* file );
 

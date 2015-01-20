@@ -140,7 +140,8 @@ void UserFileManagerConnection::handleDeletingFiles()
             {
                 QString line = indexFile.readLine();
                 line.remove("\n");
-                if (line != mediaFile->getName() +  "$" + scope)
+                qDebug() << mediaFile->getName() +  "$" + scope + "$" + QString::number( mediaFile->getSize() );
+                if (line != mediaFile->getName() +  "$" + scope + "$" + QString::number( mediaFile->getSize() ) )
                     newIndex.append( line );
                 else
                     error = false;
@@ -259,7 +260,7 @@ void UserFileManagerConnection::handleChangingScope()
         element.chop( 1 );
         if ( element.isEmpty() )
         {
-            qDebug() << "Connection lose";
+            qDebug() << "Connection lost";
             return;
         }
     }
@@ -293,14 +294,15 @@ void UserFileManagerConnection::handleChangingScope()
         {
             QString line = indexFile.readLine();
             line.remove("\n");
-            QString fileName = line.section ("$", 0, -2);
-            QString scope = line.section( "$", -1);
+            QString fileName = line.section ("$", 0, -3);
+            QString scope = line.section( "$", 1,  -2);
+            QString size = line.section( "$", -1);
             if ( toChange.contains( fileName ) )
             {
                 if ( scope == "public")
-                    newIndex.append( fileName + "$private" );
+                    newIndex.append( fileName + "$private$" + size );
                 else if ( scope == "private")
-                    newIndex.append( fileName + "$public" );
+                    newIndex.append( fileName + "$public$" + size );
                 else
                 {
                     this->client->write( "Server error: Unable to find media in the index\n" );

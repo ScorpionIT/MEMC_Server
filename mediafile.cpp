@@ -34,12 +34,12 @@ void MediaFile::setType( const FileType& type )
     this->type = type;
 }
 
-unsigned long MediaFile::getSize() const
+qint64 MediaFile::getSize() const
 {
     return size;
 }
 
-void MediaFile::setSize( unsigned long size )
+void MediaFile::setSize(qint64 size )
 {
     this->size = size;
 }
