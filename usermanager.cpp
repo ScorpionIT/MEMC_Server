@@ -1,6 +1,7 @@
 #include "usermanager.h"
 #include <QDebug>
 #include <QMutexLocker>
+#include <QProcess>
 
 using namespace users;
 
@@ -22,9 +23,23 @@ void UserManager::addUser( User* user )
     users->insert( user->getUserName(), user );
 }
 
-void UserManager::removeUser(QString user)
+void UserManager::removeUser( QString user )
 {
     QWriteLocker writeLocker( lock );
+
+    QString path = users->value( user )->getUserDirectory();
+
+
+    QProcess rm();
+
+    QStringList parameters;
+    parameters.push_back( "-rf");
+    parameters.push_back( "path");
+
+    rm.start( "rm", parameters );
+
+    delete users->value( user );
+
     users->remove( user );
 }
 
