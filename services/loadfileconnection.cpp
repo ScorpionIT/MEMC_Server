@@ -155,28 +155,24 @@ void LoadFileConnection::run()
                 mediaFile->setType( choice == 1 ? FileType::MUSIC : choice == 2 ? FileType::VIDEO : FileType::IMAGE );
                 mediaFile->set_Public( false );
 
-                qDebug() << "file->size() + user->getMemoryUsed() <= user->getTotalMemorySpace() = "
-                         << QString::number( file->size() +  user->getMemoryUsed() ) << "<=" << QString::number( user->getTotalMemorySpace() );
-
                 if( file->size() + user->getMemoryUsed() <= user->getTotalMemorySpace() )
                 {
-                   user->setMemoryUsed( user->getMemoryUsed() + file->size() );
+                    user->setMemoryUsed( user->getMemoryUsed() + file->size() );
                     user->addFile( mediaFile );
 
-                    QFile* indexFile = new QFile( directory + "index.txt" );
+                    QFile indexFile( directory + "index.txt" );
 
-                    indexFile->open( QIODevice::ReadWrite | QIODevice::Append );
-                    QTextStream out( indexFile );
-
-                    if( !out.atEnd() )
-                        out << "\n" + fileName + "$private" + "$" + QString::number( file->size() );
+                    if ( indexFile.open(QIODevice::Append | QIODevice::Text ) )
+                    {
+                        indexFile.write( QString (fileName + "$private" + "$" + QString::number( file->size() ) + "\n").toUtf8() );
+                        indexFile.close();
+                    }
                     else
-                        out << fileName + "$private" + "$" + QString::number( file->size() );
-
-
-                    indexFile->close();
-
-                    delete indexFile;
+                    {
+                        this->client->write( "Server error: Unable add media to index\n" );
+                        this->client->waitForBytesWritten();
+                        file->remove();
+                    }
                 }
             }
             file->close();
