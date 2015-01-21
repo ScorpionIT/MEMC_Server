@@ -11,10 +11,12 @@ int main(int argc, char *argv[])
 
     QDir dir;
     QString path = dir.homePath();
+    QString path2 = dir.homePath();
 
     path += "/Dropbox/Progetto Condiviso/Incigneria/usersmario1.txt";
+    path2 += "/Dropbox/Progetto Condiviso/Incigneria/config.txt";
 
-    ServerApplication* server = new ServerApplication( path );
+    ServerApplication* server = new ServerApplication( path, path2 );
     server->start();
 
     return app.exec();

@@ -14,14 +14,18 @@ using namespace services;
 class ServerApplication
 {
 private:
+    qint64 memory;
+    qint64 freeMemory;
     ConnectionManager* connectionManager;
     FileService* fileService;
     LoadFileService* loadFileService;
     UserFileManager* userFileManager;
 
+    AdminService* adminService;
+
 
 public:
-    ServerApplication( QString userFile );
+    ServerApplication( QString userFile, QString configFile );
     void start();
     ~ServerApplication();
 };

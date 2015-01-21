@@ -12,12 +12,15 @@ namespace services
     private:
         QTcpServer* serverSocket;
         QTcpSocket* admin;
+        QString entryPoint;
+        QString userFile;
+        QString configFile;
         void run();
         void handleDeletingUsers();
         void handleEditingMemory();
 
     public:
-        AdminService();
+        AdminService( QString entryPoint, QString userFile, QString configFile );
         ~AdminService();
     };
 }

@@ -30,13 +30,16 @@ void UserManager::removeUser( QString user )
     QString path = users->value( user )->getUserDirectory();
 
 
-    QProcess rm();
+    QProcess rm;
 
     QStringList parameters;
     parameters.push_back( "-rf");
-    parameters.push_back( "path");
+    parameters.push_back( path );
+
+    qDebug() << "sto cancellando " << path;
 
     rm.start( "rm", parameters );
+    rm.waitForFinished( -1 );
 
     delete users->value( user );
 
