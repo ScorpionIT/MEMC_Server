@@ -30,7 +30,12 @@ ServerApplication::ServerApplication( QString userFile , QString configFile )
     fileService = new FileService();
     loadFileService = new LoadFileService();
     userFileManager = new UserFileManager();
-    adminService = new AdminService( QDir::currentPath(), userFile, configFile );
+    QFile usFile( userFile );
+    while( !usFile.open( QIODevice::ReadOnly ) );
+    QString entryPoint = QTextStream( &usFile ).readLine();
+    usFile.close();
+    qDebug() << entryPoint;
+    adminService = new AdminService( entryPoint, userFile, configFile );
 }
 
 void ServerApplication::start()
@@ -48,5 +53,6 @@ ServerApplication::~ServerApplication()
     delete fileService;
     delete loadFileService;
     delete userFileManager;
+    delete adminService;
 }
 

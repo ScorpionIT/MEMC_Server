@@ -17,7 +17,7 @@ namespace services
         QString configFile;
         void run();
         void handleDeletingUsers();
-        void handleEditingMemory();
+        void handleAddingUser();
 
     public:
         AdminService( QString entryPoint, QString userFile, QString configFile );
