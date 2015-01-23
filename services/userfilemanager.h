@@ -1,22 +1,21 @@
 #ifndef USERFILEMANAGER_H
 #define USERFILEMANAGER_H
 
-#include <QThread>
-#include <QTcpServer>
-#include "userfilemanagerconnection.h"
+#include "userfilemanagerprocess.h"
+#include "genericservice.h"
 
-class UserFileManager : public QThread
+namespace services
 {
-    Q_OBJECT
+    class UserFileManager : public GenericService
+    {
+        Q_OBJECT
 
-private:
-    QTcpServer* serverSocket;
-    QList<UserFileManagerConnection*>* connections;
-    void run();
+    private:
+        void run();
 
-public:
-    UserFileManager();
-    ~UserFileManager();
-};
-
+    public:
+        UserFileManager();
+        virtual ~UserFileManager();
+    };
+}
 #endif // USERFILEMANAGER_H

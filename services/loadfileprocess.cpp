@@ -1,4 +1,4 @@
-#include "loadfileconnection.h"
+#include "loadfileprocess.h"
 #include "usermanager.h"
 #include <QFile>
 #include <QTextStream>
@@ -6,19 +6,17 @@
 using namespace services;
 using namespace users;
 
-LoadFileConnection::LoadFileConnection( QTcpSocket* client )
+LoadFileProcess::LoadFileProcess( QTcpSocket* client ) : GenericProcess( client )
 {
-    this->client = client;
-    this->client->setParent( nullptr );
     this->client->moveToThread( this );
 }
 
-void LoadFileConnection::closeConnection()
+void LoadFileProcess::closeConnection()
 {
     this->client->close();
 }
 
-void LoadFileConnection::run()
+void LoadFileProcess::run()
 {
     if ( !this->client->isOpen() )
         return;
@@ -184,7 +182,7 @@ void LoadFileConnection::run()
     }
 }
 
-LoadFileConnection::~LoadFileConnection()
+LoadFileProcess::~LoadFileProcess()
 {
     delete client;
 }

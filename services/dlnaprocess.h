@@ -6,20 +6,21 @@
 #include <QString>
 #include <QStringList>
 #include <QTcpSocket>
+#include "genericprocess.h"
 
 namespace services
 {
     namespace dlna
     {
-        class DLNAProcess : public QThread
+        class DLNAProcess : public GenericProcess
         {
         private:
-            QTcpSocket* client;
-            void run();
+            virtual void run();
+            virtual void closeConnection();
 
         public:
             DLNAProcess( QTcpSocket* client );
-            ~DLNAProcess();
+            virtual ~DLNAProcess();
         };
     }
 }

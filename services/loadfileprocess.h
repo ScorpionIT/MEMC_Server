@@ -4,21 +4,21 @@
 #include <QTcpSocket>
 #include <QThread>
 #include <QString>
+#include "genericprocess.h"
 
 namespace services
 {
-    class LoadFileConnection : public QThread
+    class LoadFileProcess : public GenericProcess
     {
         Q_OBJECT
 
     private:
-        QTcpSocket* client;
-        void closeConnection();
-        void run();
+        virtual void closeConnection();
+        virtual void run();
 
     public:
-        LoadFileConnection( QTcpSocket* client );
-        ~LoadFileConnection();
+        LoadFileProcess( QTcpSocket* client );
+        ~LoadFileProcess();
     };
 }
 #endif // LOADFILECONNECTION_H

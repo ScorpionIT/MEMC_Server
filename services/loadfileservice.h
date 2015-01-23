@@ -1,26 +1,22 @@
 #ifndef LOADFILESERVICE_H
 #define LOADFILESERVICE_H
 
-#include <QThread>
-#include <QList>
-#include <QTcpServer>
-
-#include "loadfileconnection.h"
+#include "loadfileprocess.h"
+#include "genericservice.h"
 
 namespace services
 {
-    class LoadFileService : public QThread
+    class LoadFileService : public GenericService
     {
         Q_OBJECT
 
     private:
-        QTcpServer* serverSocket;
-        QList<LoadFileConnection*>* connections;
         void run();
 
     public:
         LoadFileService();
-        ~LoadFileService();
+        virtual ~LoadFileService();
+
     };
 }
 

@@ -7,9 +7,9 @@ using namespace services;
 using namespace dlna;
 using namespace users;
 
-DLNAProcess::DLNAProcess( QTcpSocket* client )
+DLNAProcess::DLNAProcess( QTcpSocket* client ) : GenericProcess( client )
 {
-    this->client = client;
+    this->client->moveToThread( this );
 }
 
 void DLNAProcess::run()
@@ -76,6 +76,11 @@ void DLNAProcess::run()
 
 
     }
+
+}
+
+void DLNAProcess::closeConnection()
+{
 
 }
 

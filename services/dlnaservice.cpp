@@ -6,15 +6,12 @@
 using namespace services;
 using namespace dlna;
 
-DLNAService::DLNAService() : QThread()
+DLNAService::DLNAService() : GenericService()
 {
-    connections = new QVector<DLNAProcess*>();
-    this->serverSocket = new QTcpServer();
 }
 
 void DLNAService::run()
 {
-    this->serverSocket = new QTcpServer();
     bool error = this->serverSocket->listen( QHostAddress::Any, 80007 );
     if( !error )
     {

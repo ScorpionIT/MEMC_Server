@@ -2,25 +2,20 @@
 #define DLNASERVICE_H
 
 #include "dlnaprocess.h"
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QVector>
-#include <QThread>
+#include "genericservice.h"
 
 namespace services
 {
     namespace dlna
     {
-        class DLNAService : public QThread
+        class DLNAService : public GenericService
         {
         private:
-            QTcpServer* serverSocket;
-            QVector<DLNAProcess*>* connections;
             void run();
 
         public:
             DLNAService();
-            ~DLNAService();
+            virtual ~DLNAService();
         };
     }
 }

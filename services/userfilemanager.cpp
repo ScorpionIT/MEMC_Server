@@ -1,14 +1,14 @@
 #include "userfilemanager.h"
-#include "userfilemanagerconnection.h"
+#include "userfilemanagerprocess.h"
 
-UserFileManager::UserFileManager()
+using namespace services;
+
+UserFileManager::UserFileManager() : GenericService()
 {
-    connections = new QList<UserFileManagerConnection*>();
 }
 
 void UserFileManager::run()
 {
-    this->serverSocket = new QTcpServer();
     bool error = this->serverSocket->listen( QHostAddress::Any, 80008 );
     if( !error )
     {
@@ -20,7 +20,7 @@ void UserFileManager::run()
         if ( !this->serverSocket->hasPendingConnections() )
             this->serverSocket->waitForNewConnection( -1, 0 );
 
-        this->connections->push_back( new UserFileManagerConnection( this->serverSocket->nextPendingConnection() ) );
+        this->connections->push_back( new UserFileManagerProcess( this->serverSocket->nextPendingConnection() ) );
         //connect( this->connections.back(), &Connection::closed, this, &ConnectionManager::killThreadConnetion );
         this->connections->back()->start();
     }

@@ -1,25 +1,19 @@
 #ifndef FILESERVICE_H
 #define FILESERVICE_H
 
-#include <QThread>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QList>
+#include "genericservice.h"
 
 namespace services
 {
-    class FileService : public QThread
+    class FileService : public GenericService
     {
 
     private:
-        int counter;
-        QTcpServer* serverSocket;
-        QTcpSocket* client;
         void run();
 
     public:
         FileService();
-        ~FileService();
+        virtual ~FileService();
     };
 
 }
