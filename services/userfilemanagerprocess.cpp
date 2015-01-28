@@ -1,19 +1,18 @@
-#include "userfilemanagerconnection.h"
+#include "userfilemanagerprocess.h"
+using namespace services;
 
-UserFileManagerConnection::UserFileManagerConnection( QTcpSocket* client )
+UserFileManagerProcess::UserFileManagerProcess( QTcpSocket* client ) : GenericProcess( client )
 {
-    this->client = client;
-    this->client->setParent( nullptr );
     this->client->moveToThread( this );
 }
 
-UserFileManagerConnection::~UserFileManagerConnection()
+UserFileManagerProcess::~UserFileManagerProcess()
 {
     delete this->user;
     delete this->client;
 }
 
-void UserFileManagerConnection::run()
+void UserFileManagerProcess::run()
 {
     this->client->write( "who?\n" );
 
@@ -91,7 +90,7 @@ void UserFileManagerConnection::run()
     }
 }
 
-void UserFileManagerConnection::handleDeletingFiles()
+void UserFileManagerProcess::handleDeletingFiles()
 {
     this->client->write( "files[END to stop]\n" );
     this->client->waitForBytesWritten();
@@ -208,7 +207,7 @@ void UserFileManagerConnection::handleDeletingFiles()
     this->client->waitForBytesWritten();
 }
 
-void UserFileManagerConnection::handleChangingScope()
+void UserFileManagerProcess::handleChangingScope()
 {
     this->client->write( "[MUSIC=1, VIDEO=2, IMAGE=3]\n" );
     this->client->waitForBytesWritten();
@@ -353,7 +352,7 @@ void UserFileManagerConnection::handleChangingScope()
     this->client->waitForBytesWritten();
 }
 
-void UserFileManagerConnection::restoreScope(int n)
+void UserFileManagerProcess::restoreScope(int n)
 {
     int end = filesToChangeScope.size();
     if ( n == -1 )
@@ -364,4 +363,10 @@ void UserFileManagerConnection::restoreScope(int n)
         if( chageScopeMediaFileList->contains( filesToChangeScope[i] ) )
             chageScopeMediaFileList->value( filesToChangeScope[i] )->set_Public( this->toPublic );
     }
+}
+
+
+void services::UserFileManagerProcess::closeConnection()
+{
+
 }

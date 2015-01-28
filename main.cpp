@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QString path = dir.homePath();
     QString path2 = dir.homePath();
 
-    path += "/Dropbox/Progetto Condiviso/Incigneria/usersmario1.txt";
+    path += "/Dropbox/Progetto Condiviso/Incigneria/users.txt";
     path2 += "/Dropbox/Progetto Condiviso/Incigneria/config.txt";
 
     ServerApplication* server = new ServerApplication( path, path2 );

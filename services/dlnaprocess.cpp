@@ -3,10 +3,8 @@
 using namespace services;
 using namespace dlna;
 
-DLNAProcess::DLNAProcess( QTcpSocket* client )
+DLNAProcess::DLNAProcess( QTcpSocket* client ) : GenericProcess( client )
 {
-    this->client = client;
-    this->client->setParent( nullptr );
     this->client->moveToThread( this );
 }
 
@@ -276,6 +274,12 @@ void DLNAProcess::stopDlnaShare()
         delete mediaTombProcess;
     }
 }
+
+void DLNAProcess::closeConnection()
+{
+
+}
+
 
 DLNAProcess::~DLNAProcess()
 {

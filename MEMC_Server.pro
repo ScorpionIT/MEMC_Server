@@ -23,12 +23,15 @@ HEADERS += \
     services/dlnaprocess.h \
     services/dlnaservice.h \
     services/fileservice.h \
-    services/loadfileconnection.h \
     services/loadfileservice.h \
     services/userfilemanager.h \
-    services/userfilemanagerconnection.h \
+    services/StreamingService.h \
     services/adminservice.h \
-    services/StreamingService.h
+    services/genericprocess.h \
+    services/loadfileprocess.h \
+    services/userfilemanagerprocess.h \
+    services/genericservice.h \
+    services/fileprocess.h
 
 SOURCES += \
     main.cpp \
@@ -49,9 +52,10 @@ SOURCES += \
     services/dlnaprocess.cpp \
     services/dlnaservice.cpp \
     services/fileservice.cpp \
-    services/loadfileconnection.cpp \
     services/loadfileservice.cpp \
     services/userfilemanager.cpp \
-    services/userfilemanagerconnection.cpp \
     services/adminservice.cpp \
-    services/StreamingService.cpp
+    services/StreamingService.cpp \
+    services/loadfileprocess.cpp \
+    services/userfilemanagerprocess.cpp \
+    services/fileprocess.cpp

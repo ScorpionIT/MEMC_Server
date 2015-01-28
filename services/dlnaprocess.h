@@ -8,31 +8,33 @@
 #include <QProcess>
 #include <QTcpSocket>
 #include <QStringList>
-#include <QStringList>
 
 #include "usermanager.h"
+#include "genericprocess.h"
 
 using namespace users;
+
 
 namespace services
 {
     namespace dlna
     {
-        class DLNAProcess : public QThread
+        class DLNAProcess : public GenericProcess
         {
         private:
-            QTcpSocket* client;
             User* user;
 
-            void run();
             bool setupDlna();
             void newDlnaShare();
             void getCurrentDlnaShare();
             void stopDlnaShare();
 
+            virtual void run();
+            virtual void closeConnection();
+
         public:
             DLNAProcess( QTcpSocket* client );
-            ~DLNAProcess();
+            virtual ~DLNAProcess();
         };
     }
 }
