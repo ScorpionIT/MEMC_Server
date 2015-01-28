@@ -1,19 +1,19 @@
 #ifndef USER_H
 #define USER_H
 
-#include <QString>
-#include <QList>
 #include <QMap>
+#include <QList>
+#include <QString>
+#include <QProcess>
+
 #include "mediafile.h"
 
 #include "connection/connection.h"
-#include "services/dlnaprocess.h"
+//#include "services/dlnaprocess.h"
 
 namespace users
 {
-
-
-    class User
+   class User
     {
     private:
         QString userName;
@@ -32,7 +32,7 @@ namespace users
         QMap<QString, MediaFile*>* publicVideoFiles;
         QMap<QString, MediaFile*>* publicImageFiles;
 
-        QMap<QString, services::dlna::DLNAProcess*>* dlnaSharing; //= new QMap<QString, DLNAProcess*>();
+        QProcess* dlnaProcess;
 
         void connect( int sessionID );
         void disconnect();
@@ -69,8 +69,8 @@ namespace users
 
          MediaFile* takeFile( QString name );
 
-         void addDLNASharing( QString pid, services::dlna::DLNAProcess* sharing );
-         bool removeDLNASharing( QString pid );
+         QProcess *getDlnaProcess();
+         void setDlnaProcess( QProcess* dlnaProcess );
 
          friend class connection::Connection;
 

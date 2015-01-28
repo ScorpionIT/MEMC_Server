@@ -1,7 +1,5 @@
 #include "user.h"
 
-//using namespace services;
-//using namespace dlna;
 using namespace users;
 
 User::User()
@@ -14,7 +12,7 @@ User::User()
     publicVideoFiles = new QMap<QString, MediaFile*>();
     publicImageFiles = new QMap<QString, MediaFile*>();
 
-    dlnaSharing = new QMap<QString, services::dlna::DLNAProcess*>();
+    this->dlnaProcess = nullptr;
 }
 
 QString User::getUserName() const
@@ -142,18 +140,14 @@ MediaFile* User::takeFile( QString name )
         return nullptr;
 }
 
-void User::addDLNASharing( QString pid, services::dlna::DLNAProcess* sharing )
+QProcess* User::getDlnaProcess()
 {
-    dlnaSharing->insert( pid, sharing );
+    return dlnaProcess;
 }
 
-bool User::removeDLNASharing( QString pid )
+void User::setDlnaProcess(QProcess *dlnaProcess)
 {
-    if( !dlnaSharing->contains( pid ) )
-        return false;
-
-    dlnaSharing->remove( pid );
-    return true;
+    this->dlnaProcess = dlnaProcess;
 }
 
 void User::connect( int sessionID )
@@ -193,6 +187,12 @@ void User::setUserDirectory( QString path )
 
 User::~User()
 {
+    if (this->dlnaProcess != nullptr)
+    {
+        this->dlnaProcess->close();
+        delete this->dlnaProcess;
+        this->dlnaProcess = nullptr;
+    }
 
 }
 

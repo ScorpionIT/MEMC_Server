@@ -36,8 +36,6 @@ void UserManager::removeUser( QString user )
     parameters.push_back( "-rf");
     parameters.push_back( path );
 
-    qDebug() << "sto cancellando " << path;
-
     rm.start( "rm", parameters );
     rm.waitForFinished( -1 );
 

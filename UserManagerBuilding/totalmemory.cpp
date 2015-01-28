@@ -17,7 +17,6 @@ bool TotalMemory::handle(QString line)
     {
 
         builder->setTotalMemory( tokens[1] );
-        qDebug() << "la memoria totale è " << tokens[1];
         return true;
     }
     else if( next != nullptr )

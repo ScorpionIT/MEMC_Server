@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QProcess>
 
-#include "usermanager.h"
+#include "../usermanager.h"
 
 using namespace users;
 

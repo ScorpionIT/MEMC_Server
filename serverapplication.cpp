@@ -19,7 +19,6 @@ ServerApplication::ServerApplication( QString userFile , QString configFile )
     memory = QString( in.readLine() ).toLong();
     freeMemory = QString( in.readLine() ).toLong();
 
-    qDebug() << "sono dopo";
     UserBuilder* builder = new UserBuilder();
     UserFileDirector* director = new UserFileDirector( builder, userFile );
     director->startBuilding();
@@ -34,8 +33,8 @@ ServerApplication::ServerApplication( QString userFile , QString configFile )
     while( !usFile.open( QIODevice::ReadOnly ) );
     QString entryPoint = QTextStream( &usFile ).readLine();
     usFile.close();
-    qDebug() << entryPoint;
     adminService = new AdminService( entryPoint, userFile, configFile );
+    this->dlnaService = new DLNAService();
 }
 
 void ServerApplication::start()
@@ -45,6 +44,7 @@ void ServerApplication::start()
     loadFileService->start();
     userFileManager->start();
     adminService->start();
+    this->dlnaService->start();
 }
 
 ServerApplication::~ServerApplication()
@@ -54,5 +54,6 @@ ServerApplication::~ServerApplication()
     delete loadFileService;
     delete userFileManager;
     delete adminService;
+    delete this->dlnaService;
 }
 

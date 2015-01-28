@@ -1,11 +1,12 @@
 #ifndef DLNASERVICE_H
 #define DLNASERVICE_H
 
-#include "dlnaprocess.h"
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QVector>
 #include <QThread>
+
+#include "dlnaprocess.h"
 
 namespace services
 {

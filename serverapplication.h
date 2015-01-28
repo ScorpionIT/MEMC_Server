@@ -6,10 +6,11 @@
 #include "./services/fileservice.h"
 #include "./services/loadfileservice.h"
 #include "./services/userfilemanager.h"
+#include "./services/dlnaservice.h"
 
 using namespace connection;
 using namespace services;
-
+using namespace dlna;
 
 class ServerApplication
 {
@@ -20,7 +21,7 @@ private:
     FileService* fileService;
     LoadFileService* loadFileService;
     UserFileManager* userFileManager;
-
+    DLNAService* dlnaService;
     AdminService* adminService;
 
 

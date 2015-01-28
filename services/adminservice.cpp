@@ -36,7 +36,6 @@ void AdminService::run()
         this->admin->write( QString( "username and passwd, please[split with $]\n" ).toUtf8() );
         this->admin->waitForBytesWritten();
 
-        qDebug() << QDir::currentPath();
         QFile adminCredentials( QDir::currentPath() + "/admin.txt" );
 
         while( !adminCredentials.open( QIODevice::ReadOnly ) );
@@ -52,21 +51,18 @@ void AdminService::run()
 
         if( credentials.size() != 2 )
         {
-            qDebug() << "dimensione";
             this->admin->write( "you are not the admin, bye\n" );
             this->admin->waitForBytesWritten();
             this->admin->close();
         }
         else if( credentials[0] != line )
         {
-            qDebug() << "username \n" << "vero " << line << " inserito " << credentials[0];
             this->admin->write( "you are not the admin, bye\n" );
             this->admin->waitForBytesWritten();
             this->admin->close();
         }
         else if( ( line = in.readLine() ) != credentials[1] )
         {
-            qDebug() << "passwd";
             this->admin->write( "you are not the admin, bye\n" );
             this->admin->waitForBytesWritten();
             this->admin->close();
@@ -88,7 +84,6 @@ void AdminService::run()
                 inputChoice.chop( 2 );
 
                 int choice = inputChoice.toInt();
-                qDebug() << "choice " << choice;
 
                 switch( choice )
                 {
@@ -291,7 +286,6 @@ void AdminService::handleAddingUser()
     newUser->setTotalMemorySpace( answer.toLong() );
     newUser->setUserDirectory( entryPoint + "/" + user );
 
-    qDebug() << "sto creando in " << entryPoint + "/" + user;
     QProcess* mkdir = new QProcess();
     mkdir->start( "mkdir", QStringList() << entryPoint + "/" + user );
     mkdir->waitForFinished( -1 );

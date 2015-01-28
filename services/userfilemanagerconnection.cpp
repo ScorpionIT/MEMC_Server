@@ -140,7 +140,6 @@ void UserFileManagerConnection::handleDeletingFiles()
             {
                 QString line = indexFile.readLine();
                 line.remove("\n");
-                qDebug() << mediaFile->getName() +  "$" + scope + "$" + QString::number( mediaFile->getSize() );
                 if (line != mediaFile->getName() +  "$" + scope + "$" + QString::number( mediaFile->getSize() ) )
                     newIndex.append( line );
                 else
