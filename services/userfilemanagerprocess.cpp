@@ -117,9 +117,8 @@ void UserFileManagerProcess::handleDeletingFiles()
 
     for( int i = 0; i < files.size(); i++ )
     {
-        MediaFile* mediaFile = nullptr; // HACK TO AVOID THE POSSIBILITY OF SEGMENTATION FAULT
-        mediaFile = user->takeFile( files[i] ); // UNSAFE
-        if ( mediaFile == nullptr ) // HACK TO AVOID THE POSSIBILITY OF SEGMENTATION FAULT
+        MediaFile* mediaFile = user->takeFile( files[i] );
+        if ( mediaFile == nullptr )
         {
             this->client->write( "Server error: no media file found\n" );
             this->client->waitForBytesWritten();

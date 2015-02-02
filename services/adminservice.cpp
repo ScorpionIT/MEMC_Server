@@ -20,8 +20,9 @@ AdminService::~AdminService()
 
 void AdminService::run()
 {
+    int port = 88888;
     this->serverSocket = new QTcpServer();
-    bool error = this->serverSocket->listen( QHostAddress::Any, 88888 );
+    bool error = this->serverSocket->listen( QHostAddress::Any, port );
     if (!error)
     {
         qDebug() << "errore listen";

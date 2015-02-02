@@ -5,6 +5,8 @@
 #include "../user.h"
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QUdpSocket>
+#include <QTimer>
 #include <QList>
 #include <QVector>
 
@@ -14,13 +16,19 @@ namespace connection
     {
         Q_OBJECT
 
+    public:
+        ConnectionManager();
+
     private:
-        QTcpServer* serverSocket;
+        QTcpServer *serverSocket;
+        QUdpSocket *announcingSocket;
+        QTimer *announceTime;
         QList<Connection*> clientConnections;
         void run();
 
     private slots:
         void killThreadConnetion();
+        void sendAnnunceMessage();
 
     };
 }

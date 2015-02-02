@@ -110,7 +110,7 @@ QMap<QString, MediaFile*>* User::getMediaFiles( FileType type ) const
     }
 }
 
-QMap<QString, MediaFile*>*User::getPublicFiles( FileType type ) const
+QMap<QString, MediaFile*>* User::getPublicFiles( FileType type ) const
 {
     switch( type )
     {
@@ -136,6 +136,18 @@ MediaFile* User::takeFile( QString name )
         return videoFiles->take( name );
     else if( imageFiles->contains( name ) )
         return imageFiles->take( name );
+    else
+        return nullptr;
+}
+
+MediaFile* User::getFile( QString name )
+{
+    if( musicFiles->contains( name ) )
+        return musicFiles->value(name);
+    else if( videoFiles->contains( name ) )
+        return videoFiles->value(name);
+    else if( imageFiles->contains( name ) )
+        return imageFiles->value(name);
     else
         return nullptr;
 }

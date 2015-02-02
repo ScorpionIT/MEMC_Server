@@ -8,7 +8,8 @@ LoadFileService::LoadFileService() : GenericService()
 
 void LoadFileService::run()
 {
-    bool error = this->serverSocket->listen( QHostAddress::Any, 80002 );
+    int port = 80002;
+    bool error = this->serverSocket->listen( QHostAddress::Any, port );
     if( !error )
     {
         qDebug() << "errore listen";
@@ -18,7 +19,7 @@ void LoadFileService::run()
         if ( !this->serverSocket->hasPendingConnections() )
                 this->serverSocket->waitForNewConnection( -1, 0 );
 
-        this->connections->push_back( new LoadFileProcess( this->serverSocket->nextPendingConnection() ) );       
+        this->connections->push_back( new LoadFileProcess( this->serverSocket->nextPendingConnection() ) );
         this->connections->back()->start();
     }
 }

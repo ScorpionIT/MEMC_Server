@@ -9,7 +9,8 @@ UserFileManager::UserFileManager() : GenericService()
 
 void UserFileManager::run()
 {
-    bool error = this->serverSocket->listen( QHostAddress::Any, 80008 );
+    int port = 80008;
+    bool error = this->serverSocket->listen( QHostAddress::Any, port );
     if( !error )
     {
         qDebug() << "errore listen";

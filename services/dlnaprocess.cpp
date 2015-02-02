@@ -5,6 +5,7 @@ using namespace dlna;
 
 DLNAProcess::DLNAProcess( QTcpSocket* client ) : GenericProcess( client )
 {
+    this->client->setParent( nullptr );
     this->client->moveToThread( this );
 }
 

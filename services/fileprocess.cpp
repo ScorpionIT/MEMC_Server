@@ -49,15 +49,15 @@ void FileProcess::run()
             {
             case 1:
                 files = userManager->getUser( userName_ID[0] )->getMediaFiles( FileType::MUSIC );
-                publicFiles = userManager->getPublicMediaFiles( user, MUSIC );
+                publicFiles = userManager->getPublicMediaFiles( userName_ID[0], MUSIC );
                 break;
             case 2:
                 files = userManager->getUser( userName_ID[0] )->getMediaFiles( FileType::VIDEO );
-                publicFiles = userManager->getPublicMediaFiles( user, VIDEO );
+                publicFiles = userManager->getPublicMediaFiles( userName_ID[0], VIDEO );
                 break;
             case 3:
                 files = userManager->getUser( userName_ID[0] )->getMediaFiles( FileType::IMAGE );
-                publicFiles = userManager->getPublicMediaFiles( user, IMAGE );
+                publicFiles = userManager->getPublicMediaFiles( userName_ID[0], IMAGE );
                 break;
 
             default:

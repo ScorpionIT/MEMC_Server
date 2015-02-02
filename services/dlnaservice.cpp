@@ -9,7 +9,8 @@ DLNAService::DLNAService() : GenericService()
 
 void DLNAService::run()
 {
-    bool error = this->serverSocket->listen( QHostAddress::Any, 80007 );
+    int port = 80007;
+    bool error = this->serverSocket->listen( QHostAddress::Any, port );
     if( !error )
     {
         qDebug() << "errore listen";

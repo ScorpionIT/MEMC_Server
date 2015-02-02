@@ -1,23 +1,21 @@
 #include "serverapplication.h"
-#include "./UserManagerBuilding/userfiledirector.h"
-#include "./UserManagerBuilding/userbuilder.h"
-#include "usermanager.h"
-#include "./connection/connectionmanager.h"
-#include "./services/loadfileservice.h"
 
-#include <QFile>
 #include <QDebug>
-#include <QDir>
 using namespace UserManagerBuilding;
 
 
 ServerApplication::ServerApplication( QString userFile , QString configFile )
 {
     QFile config( configFile );
+    if ( !config.open( QIODevice::ReadOnly | QIODevice::Text ) )
+    {
+        qDebug() << "unable to read config file";
+        qApp->quit();
+    }
     QTextStream in( &config );
-
     memory = QString( in.readLine() ).toLong();
     freeMemory = QString( in.readLine() ).toLong();
+    config.close();
 
     UserBuilder* builder = new UserBuilder();
     UserFileDirector* director = new UserFileDirector( builder, userFile );
@@ -29,10 +27,17 @@ ServerApplication::ServerApplication( QString userFile , QString configFile )
     fileService = new FileService();
     loadFileService = new LoadFileService();
     userFileManager = new UserFileManager();
+    this->streamingService = new StreamingService();
+
     QFile usFile( userFile );
-    while( !usFile.open( QIODevice::ReadOnly ) );
+    if( !usFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
+    {
+        qDebug() << "unable to read user file";
+        qApp->quit();
+    }
     QString entryPoint = QTextStream( &usFile ).readLine();
     usFile.close();
+
     adminService = new AdminService( entryPoint, userFile, configFile );
     this->dlnaService = new DLNAService();
 }
@@ -45,6 +50,7 @@ void ServerApplication::start()
     userFileManager->start();
     adminService->start();
     this->dlnaService->start();
+    this->streamingService->start();
 }
 
 ServerApplication::~ServerApplication()

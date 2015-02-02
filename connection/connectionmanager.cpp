@@ -2,15 +2,30 @@
 
 using namespace connection;
 
+ConnectionManager::ConnectionManager()
+{
+    this->announcingSocket = new QUdpSocket();
+    this->announceTime = new QTimer( this );
+
+    connect( this->announceTime, SIGNAL( timeout() ), this, SLOT( sendAnnunceMessage() ) );
+    this->announceTime->start( 5000 );
+}
+
 void ConnectionManager::killThreadConnetion()
 {
     this->clientConnections.removeOne( ( Connection* )sender() );
 }
 
+void ConnectionManager::sendAnnunceMessage()
+{
+   this->announcingSocket->writeDatagram("MEMC-SERVER", QHostAddress::Broadcast, 79000);
+}
+
 void ConnectionManager::run()
 {
+    int port = 80000;
     this->serverSocket = new QTcpServer();
-    bool error = this->serverSocket->listen( QHostAddress::Any, 80000 );
+    bool error = this->serverSocket->listen( QHostAddress::Any, port );
     if (!error)
     {
         qDebug() << "errore listen";
@@ -26,3 +41,4 @@ void ConnectionManager::run()
     }
 
 }
+

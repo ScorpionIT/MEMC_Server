@@ -17,10 +17,11 @@ protected:
     virtual void run() = 0;
 
 public:
-    GenericService()
+    GenericService() : QThread ()
     {
         serverSocket = new QTcpServer();
         connections = new QList<GenericProcess*>();
+        this->serverSocket->moveToThread( this );
     }
 
     virtual ~GenericService()

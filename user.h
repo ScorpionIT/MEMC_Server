@@ -65,9 +65,10 @@ namespace users
          bool getOnLine() const;
 
          QMap<QString, MediaFile*>* getMediaFiles( FileType type ) const;
-         QMap<QString, MediaFile*>* getPublicFiles( FileType type ) const;
+         QMap<QString, MediaFile *> *getPublicFiles( FileType type ) const;
 
          MediaFile* takeFile( QString name );
+         MediaFile* getFile( QString name );
 
          QProcess *getDlnaProcess();
          void setDlnaProcess( QProcess* dlnaProcess );

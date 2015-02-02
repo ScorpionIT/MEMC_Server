@@ -31,7 +31,8 @@ HEADERS += \
     services/loadfileprocess.h \
     services/userfilemanagerprocess.h \
     services/genericservice.h \
-    services/fileprocess.h
+    services/fileprocess.h \
+    services/StreamingProcess.h
 
 SOURCES += \
     main.cpp \
@@ -58,4 +59,5 @@ SOURCES += \
     services/StreamingService.cpp \
     services/loadfileprocess.cpp \
     services/userfilemanagerprocess.cpp \
-    services/fileprocess.cpp
+    services/fileprocess.cpp \
+    services/StreamingProcess.cpp

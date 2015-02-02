@@ -15,7 +15,8 @@ FileService::FileService() : GenericService()
 
 void FileService::run()
 {
-    bool error = this->serverSocket->listen( QHostAddress::Any, 80001 );
+    int port = 80001;
+    bool error = this->serverSocket->listen( QHostAddress::Any, port );
     if (!error)
     {
         qDebug() << "errore listen";

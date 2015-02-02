@@ -16,10 +16,10 @@ namespace services
         virtual void run() = 0;
 
     public:
-        GenericProcess( QTcpSocket* client )
+        GenericProcess( QTcpSocket* client ) : QThread ()
         {
+            client->setParent( nullptr );
             this->client = client;
-            this->client->setParent( nullptr );
         }
 
         virtual ~GenericProcess()
