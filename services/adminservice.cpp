@@ -15,7 +15,8 @@ AdminService::AdminService( QString entryPoint , QString userFile, QString confi
 
 AdminService::~AdminService()
 {
-
+    delete serverSocket;
+    delete admin;
 }
 
 void AdminService::run()

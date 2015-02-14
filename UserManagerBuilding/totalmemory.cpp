@@ -27,6 +27,7 @@ bool TotalMemory::handle(QString line)
 
 TotalMemory::~TotalMemory()
 {
-
+    if( next != nullptr )
+        delete next;
 }
 

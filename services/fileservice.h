@@ -13,7 +13,6 @@ namespace services
 
     public:
         FileService();
-        virtual ~FileService();
     };
 
 }

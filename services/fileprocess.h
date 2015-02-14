@@ -5,15 +5,14 @@
 
 namespace services
 {
-class FileProcess : public GenericProcess
-{
-private:
-    virtual void run();
-    virtual void closeConnection();
+    class FileProcess : public GenericProcess
+    {
+    private:
+        virtual void run();
+        virtual void closeConnection();
 
-public:
-    FileProcess( QTcpSocket* client );
-    virtual ~FileProcess();
-};
+    public:
+        FileProcess( QTcpSocket* client );
+    };
 }
 #endif // FILEPROCESS_H

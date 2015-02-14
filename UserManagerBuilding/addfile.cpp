@@ -41,6 +41,7 @@ bool AddFile::handle(QString line)
 
 AddFile::~AddFile()
 {
-
+    if( next != nullptr )
+        delete next;
 }
 

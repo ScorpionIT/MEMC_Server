@@ -15,7 +15,6 @@ namespace services
 
     public:
         UserFileManager();
-        virtual ~UserFileManager();
     };
 }
 #endif // USERFILEMANAGER_H

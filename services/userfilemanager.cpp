@@ -28,8 +28,3 @@ void UserFileManager::run()
 
 }
 
-UserFileManager::~UserFileManager()
-{
-
-}
-

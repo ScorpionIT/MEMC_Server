@@ -11,6 +11,18 @@ ConnectionManager::ConnectionManager()
     this->announceTime->start( 5000 );
 }
 
+ConnectionManager::~ConnectionManager()
+{
+    delete serverSocket;
+    delete announcingSocket;
+    delete announceTime;
+
+
+    for( QList<Connection*>::iterator it = clientConnections.begin(); it != clientConnections.end(); it++ )
+        delete ( *it );
+
+}
+
 void ConnectionManager::killThreadConnetion()
 {
     this->clientConnections.removeOne( ( Connection* )sender() );

@@ -7,11 +7,6 @@ StreamingProcess::StreamingProcess( QTcpSocket* client ) : GenericProcess( clien
     this->client->moveToThread( this );
 }
 
-StreamingProcess::~StreamingProcess()
-{
-
-}
-
 void StreamingProcess::run()
 {
     QByteArray response;

@@ -18,6 +18,7 @@ namespace connection
 
     public:
         ConnectionManager();
+        virtual ~ConnectionManager();
 
     private:
         QTcpServer *serverSocket;

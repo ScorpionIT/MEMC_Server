@@ -1,4 +1,5 @@
 #include "serverapplication.h"
+#include "usermanager.h"
 
 #include <QDebug>
 using namespace UserManagerBuilding;
@@ -60,6 +61,8 @@ ServerApplication::~ServerApplication()
     delete loadFileService;
     delete userFileManager;
     delete adminService;
-    delete this->dlnaService;
+    delete dlnaService;
+    delete streamingService;
+    delete users::UserManager::getInstance();
 }
 

@@ -54,10 +54,10 @@ void UserFileDirector::startBuilding()
 
     file.close();
 
-    delete endCreation;
-    delete password;
-    delete totMemory;
-    delete addFile;
+//    delete endCreation;
+//    delete password;
+//    delete totMemory;
+//    delete addFile;
     delete chain;
 }
 

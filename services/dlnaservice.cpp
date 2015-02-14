@@ -28,9 +28,3 @@ void DLNAService::run()
 
 
 }
-
-DLNAService::~DLNAService()
-{
-
-}
-

@@ -9,7 +9,12 @@ UserFileManagerProcess::UserFileManagerProcess( QTcpSocket* client ) : GenericPr
 UserFileManagerProcess::~UserFileManagerProcess()
 {
     delete this->user;
-    delete this->client;
+    //delete this->client;
+
+    for( QMap<QString, MediaFile*>::iterator it = chageScopeMediaFileList->begin(); it != chageScopeMediaFileList->end(); it++ )
+        delete ( *it );
+
+   this->~GenericProcess();
 }
 
 void UserFileManagerProcess::run()

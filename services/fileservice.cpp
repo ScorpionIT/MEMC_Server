@@ -31,7 +31,3 @@ void FileService::run()
     }
 
 }
-
-FileService::~FileService()
-{
-}

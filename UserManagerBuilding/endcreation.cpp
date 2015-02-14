@@ -22,6 +22,7 @@ bool EndCreation::handle( QString line )
 
 EndCreation::~EndCreation()
 {
-
+    if( next != nullptr )
+        delete next;
 }
 

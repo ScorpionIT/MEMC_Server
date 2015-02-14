@@ -23,7 +23,7 @@ namespace connection
 
     public:
         Connection( QTcpSocket* client );
-        ~Connection();
+        virtual ~Connection();
 
         void run();
     };

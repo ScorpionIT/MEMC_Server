@@ -23,6 +23,8 @@ bool Password::handle( QString line )
 
 Password::~Password()
 {
+    if( next != nullptr )
+        delete next;
 
 }
 

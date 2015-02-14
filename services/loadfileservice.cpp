@@ -24,7 +24,3 @@ void LoadFileService::run()
     }
 }
 
-LoadFileService::~LoadFileService()
-{
-}
-

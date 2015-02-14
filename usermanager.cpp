@@ -134,16 +134,38 @@ int UserManager::getNumOfUsers() const
 UserManager::~UserManager()
 {
     if( users != nullptr )
+    {
+        for( QMap<QString, User*>::iterator it = users->begin(); it != users->end(); it++ )
+            delete ( *it );
         delete users;
+    }
     if( lock != nullptr )
         delete lock;
+
+    if( publicMediaFiles_m != nullptr )
+    {
+        for( QMap<QString, MediaFile*>::iterator it = publicMediaFiles_m->begin(); it != publicMediaFiles_m->end(); it++ )
+            delete ( *it );
+        delete publicMediaFiles_m;
+
+    }
+
+    if( publicMediaFiles_v != nullptr )
+    {
+        for( QMap<QString, MediaFile*>::iterator it = publicMediaFiles_v->begin(); it != publicMediaFiles_v->end(); it++ )
+            delete ( *it );
+        delete publicMediaFiles_v;
+    }
+
+    if( publicMediaFiles_i != nullptr )
+    {
+        for( QMap<QString, MediaFile*>::iterator it = publicMediaFiles_i->begin(); it != publicMediaFiles_i->end(); it++ )
+            delete ( *it );
+        delete publicMediaFiles_i;
+
+    }
+
     if( _userManager != nullptr )
         delete _userManager;
-    if( publicMediaFiles_m != nullptr )
-        delete publicMediaFiles_m;
-    if( publicMediaFiles_v != nullptr )
-        delete publicMediaFiles_v;
-    if( publicMediaFiles_i != nullptr )
-        delete publicMediaFiles_i;
 }
 

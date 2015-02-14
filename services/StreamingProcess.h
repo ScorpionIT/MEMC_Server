@@ -20,7 +20,6 @@ namespace services
 
     public:
         StreamingProcess(QTcpSocket *client);
-        ~StreamingProcess();
     };
 }
 

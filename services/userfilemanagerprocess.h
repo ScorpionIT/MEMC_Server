@@ -30,7 +30,7 @@ namespace services
 
     public:
         UserFileManagerProcess( QTcpSocket* client );
-        ~UserFileManagerProcess();
+        virtual ~UserFileManagerProcess();
     };
 }
 #endif // USERFILEMANAGERCONNECTION_H

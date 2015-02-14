@@ -15,8 +15,6 @@ namespace services
 
     public:
         LoadFileService();
-        virtual ~LoadFileService();
-
     };
 }
 

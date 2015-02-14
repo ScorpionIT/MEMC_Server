@@ -26,6 +26,9 @@ public:
 
     virtual ~GenericService()
     {
+        for( QList<GenericProcess*>::iterator it = connections->begin(); it != connections->end(); it++ )
+            delete (*it);
+
         delete connections;
         delete serverSocket;
     }

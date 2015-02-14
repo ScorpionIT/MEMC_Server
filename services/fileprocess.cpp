@@ -109,10 +109,3 @@ void FileProcess::closeConnection()
 
 }
 
-
-
-FileProcess::~FileProcess()
-{
-
-}
-

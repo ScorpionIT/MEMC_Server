@@ -40,6 +40,7 @@ public:
     ServerApplication( QString userFile, QString configFile );
     void start();
     ~ServerApplication();
+
 };
 
 #endif // SERVERAPPLICATION_H

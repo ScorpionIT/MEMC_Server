@@ -182,8 +182,4 @@ void LoadFileProcess::run()
     }
 }
 
-LoadFileProcess::~LoadFileProcess()
-{
-    delete client;
-}
 

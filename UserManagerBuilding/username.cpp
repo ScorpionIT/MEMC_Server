@@ -23,6 +23,8 @@ bool UserName::handle( QString line )
 
 UserName::~UserName()
 {
+    if( next != nullptr )
+        delete next;
 
 }
 

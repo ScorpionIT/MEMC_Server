@@ -18,7 +18,6 @@ namespace services
 
     public:
         LoadFileProcess( QTcpSocket* client );
-        ~LoadFileProcess();
     };
 }
 #endif // LOADFILECONNECTION_H

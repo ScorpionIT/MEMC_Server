@@ -206,5 +206,29 @@ User::~User()
         this->dlnaProcess = nullptr;
     }
 
+    for( QMap<QString, MediaFile*>::iterator it = imageFiles->begin(); it != imageFiles->end(); it++ )
+        delete ( *it );
+    delete imageFiles;
+
+    for( QMap<QString, MediaFile*>::iterator it = musicFiles->begin(); it != musicFiles->end(); it++ )
+        delete ( *it );
+    delete videoFiles;
+
+    for( QMap<QString, MediaFile*>::iterator it = videoFiles->begin(); it != videoFiles->end(); it++ )
+        delete ( *it );
+    delete videoFiles;
+
+    for( QMap<QString, MediaFile*>::iterator it = publicImageFiles->begin(); it != publicImageFiles->end(); it++ )
+        delete ( *it );
+    delete publicImageFiles;
+
+    for( QMap<QString, MediaFile*>::iterator it = publicMusicFiles->begin(); it != publicMusicFiles->end(); it++ )
+        delete ( *it );
+    delete publicMusicFiles;
+
+    for( QMap<QString, MediaFile*>::iterator it = publicVideoFiles->begin(); it != publicVideoFiles->end(); it++ )
+        delete ( *it );
+    delete publicVideoFiles;
+
 }
 

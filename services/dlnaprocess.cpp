@@ -284,6 +284,8 @@ void DLNAProcess::closeConnection()
 
 DLNAProcess::~DLNAProcess()
 {
+    delete client;
+    this->~GenericProcess();
 
 }
 
